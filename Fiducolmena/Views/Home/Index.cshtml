@@ -1,0 +1,80 @@
+﻿
+@{
+    ViewBag.Title = "Fiducolmena";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<label for="file">Progreso:</label>
+<progress id="file" max="100" value="10"></progress>
+<label class="file" for="file">10%</label>
+<br />
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-2"></div>
+            <!-- left column -->
+            <div class="col-md-8">
+                <!-- jquery validation -->
+                <div class="card">
+
+                    <div class="card-1">
+                        <img class="Cabecera" src="~/Imagenes/CabeFidu.PNG" />
+                    </div>
+                    <div class="card-header">
+                        <h3 class="card-title">Datos Verificados</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <!-- form start -->
+
+                    <div class="card-body">
+                        <div class="row">
+
+                            <div class="col-md-12">
+                                @*<div class="form-group">
+                                        <label for="#">El formulario único de conocimiento SARLAFT debe diligenciarse anualmente, cumple con la normatividad estipulada y nos brinda información necesaria para conocer a nuestros clientes.</label>
+                                    </div>*@
+                                <div class="form-group">
+                                    <label for="#">
+                                        Se garantiza la confidencialidad de los datos personales facilitados por los usuarios y su tratamiento de acuerdo con la legislación de protección de datos de carácter personal, siendo así, de uso exclusivo de la entidad y traslado a terceros con autorización previa del usuario.
+                                        <br />
+                                        <br />Para realizar el proceso es importante contar con un dispositivo con cámara y el documento de identidad a la mano, el cual es indispensable para la validación de identidad.
+                                    </label>
+                                </div>
+
+                                <form id="IngresoFiducolmena" method="post" action="/Home/Prevalidacion">
+                                    <div class="card-body">
+                                        <div class="form-group">
+                                            <label><b>Número de Documento</b></label>
+                                            <input type="number" name="NumIdentifica" class="form-control" id="NumIdentifica" placeholder="Numero documento" autocomplete="off" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label><b>Código de inicio</b></label>
+                                            <input type="number" name="RequestNumber" class="form-control" id="RequestNumber" placeholder="Código de inicio" autocomplete="off" required>
+                                        </div>
+                                        <div class="form-group mb-0">
+                                        </div>
+                                    </div>
+                                    <div class="card-footer">
+                                        <button type="submit" class="btn btn-block btn-primaryfid btn-md">Nueva Vinculación <i class="fa fa-portrait" style="color: #FFF598;"></i></button>
+                                    </div>
+                                </form>
+
+                            </div>
+                        </div>
+                        <img class="imgvig" src="~/Imagenes/VigilFidu.PNG" />
+                        <img class="imglog" src="~/Imagenes/LogoFiducolmenaColor.PNG" />
+                        <p class="acompa">Fiduciaria Colmena S A administra los recursos en la etapa de preventas La obligación de la Fiduciaria es de medio y no de resultado.</p>
+
+                    </div>
+
+
+                </div>
+                <!-- /.card -->
+            </div>
+
+        </div>
+
+    </div>
+</section>
+

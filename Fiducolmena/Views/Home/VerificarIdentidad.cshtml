@@ -1,0 +1,63 @@
+﻿
+@{
+    ViewBag.Title = "ValidacionIdentidad";
+    Layout = "~/Views/Shared/_Layout_Fiducolmena.cshtml";
+}
+
+<label for="file">Progreso:</label>
+<progress id="file" max="100" value="30"></progress>
+<label class="file" for="file">30%</label>
+<br />
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-2"></div>
+            <!-- left column -->
+            <div class="col-md-8">
+                <!-- jquery validation -->
+                <div class="card">
+
+                    <div class="card-1">
+                        <img class="Cabecera" src="~/Imagenes/CabeFidu.PNG" />
+                    </div>
+                    <div class="card-header">
+                        <h3 class="card-title">Verificación de Identidad</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <!-- form start -->
+
+                    <div class="card-body">
+                        <div class="row">
+
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="#">
+                                        <b> Para realizar el proceso es importante contar con un dispositivo con cámara y el documento de identidad a la mano, el cual es indispensable para la validación de identidad.</b>
+                                    </label>
+                                </div>
+                                <!--Form4 Su validación de Identidad fue realizada con éxito, ya puede continuar con el proceso.-->
+                                <div class="card-footer">
+                                    <a class="btn btn-block btn-primaryfid btn-md" href="https://adocolombia-qa.ado-tech.com/FiducolmenaQA/verificar-persona?callback=ProcesoExitoso&key=db92efc69991&projectName=FiducolmenaQA">Verificar Identidad <i class="fa fa-portrait" style="color: #FFF598;"></i></a>
+                                    https://adocolombia-qa.ado-tech.com/FiducolmenaQA/verificar-persona?callback=ProcesoExitoso&key=db92efc69991&projectName=FiducolmenaQA&documentType="DocumentType"&identificationNumber=IdentificationNumber"RequesNumber=RequesNumber"
+                                </div>
+
+                            </div>
+                        </div>
+                        <img class="imgvig" src="~/Imagenes/VigilFidu.PNG" />
+
+                        <img class="imglog" src="~/Imagenes/LogoFiducolmenaColor.PNG" />
+                        <p class="acompa">Fiduciaria Colmena S A administra los recursos en la etapa de preventas La obligación de la Fiduciaria es de medio y no de resultado.</p>
+
+                    </div>
+
+
+                </div>
+                <!-- /.card -->
+            </div>
+
+        </div>
+    </div>
+</section>
+
+

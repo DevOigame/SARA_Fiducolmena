@@ -1,0 +1,57 @@
+﻿body {
+    background:#ffffff;
+    font-family:Arial!important;
+}
+.card-header{
+    background:#00A0B0!important;
+}
+.modal-header{
+    background:#00A0B0;
+}
+.Cabecera{
+    width:100%;
+   }
+
+.imglog{
+    height:100px;
+}
+
+.imgvig{
+        height:150px;
+}
+b{
+    color:#00A0B0;/*Azul*/
+}
+h4{
+    color:#F9B036;
+    text-align:center;
+}
+h5{
+    color:#FFF6A5;
+    text-align:center;
+}
+h3{
+    /*color:#F9B036; naranja fuerte*/
+    color:#FFF6A5!important;/*Amarillo claro*/
+    
+}
+.btn-primaryfid{
+    background:#00A0B0!important ;
+    color:#FFF6A5!important;
+}
+.btn-primaryfid:hover{
+    opacity: 0.6;
+    background:#029BAA;/*Azul mas oscuro*/
+    color:#FFF6A5;
+}
+.acompa{
+    font-size:11px;
+}
+
+.file {
+    padding-right: 10px;
+    font-size: 0.7rem;
+}
+.InfCheck{
+    color:#00A0B0;
+}

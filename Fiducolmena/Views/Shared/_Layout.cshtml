@@ -1,0 +1,147 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>@ViewBag.Title</title>
+    @*@Styles.Render("~/Content/Sara.css")*@
+    @Styles.Render("~/Content/StyleFidu.css")
+    <!--Iconos estilos-->
+    @Styles.Render("~/fonts/style.css")
+    <!-- Font Awesome -->
+    @Styles.Render("~/plugins/fontawesome-free/css")
+    <!--Estilos css datatable-->
+    @Styles.Render("~/dist/DataTableExport/css")
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- overlayScrollbars -->
+    @Styles.Render("~/dist/css")
+    <!-- Google Font: Source Sans Pro -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+</head>
+
+<body class="hold-transition sidebar-mini">
+
+    <!-- Tempalte de aca hacia abajo en cada vista -->
+    <div>
+        @RenderBody()
+    </div>
+    <!-- Tempalte de aca hacia arriba en cada vista -->
+    <!-- jQuery -->
+    @Scripts.Render("~/plugins/jquery")
+    <!-- Bootstrap 4 -->
+    @Scripts.Render("~/plugins/bootstrap/js")
+    <!--Datatable-->
+    @Scripts.Render("~/dist/DataTableExport/js")
+    <!-- AdminLTE App -->
+    @Scripts.Render("~/dist/js")
+    <!-- Estos son los JS de SARA-->
+    @Scripts.Render("~/Scripts/sara")
+
+
+
+    @RenderSection("scripts", required: false)
+
+    <script>
+$( document ).ready(function() {
+    var now = new Date();
+    var day = ("0" + now.getDate()).slice(-2);
+    var month = ("0" + (now.getMonth() + 1)).slice(-2);
+    var today = now.getFullYear()+"-"+(month)+"-"+(day) ;
+    $("#fecha").val(today);
+});
+$(document).ready(function () {
+    var now = new Date();
+    var day = ("0" + now.getDate()).slice(-2);
+    var month = ("0" + (now.getMonth() + 1)).slice(-2);
+    var today = now.getFullYear() + "-" + (month) + "-" + (day);
+    $("#fecha1").val(today);
+});
+
+
+
+    //script para cerrar ventana
+    function closed() { window.open('','_parent',''); window.close(); }
+
+
+
+var contenido = document.querySelector('#contenido')
+
+    function traer()
+    {
+        numero_documento = document.getElementsByName("numDoc")[0].value;
+        request_number = document.getElementsByName("ReqNum")[0].value;
+        tipo_identificacion = document.getElementsByName("tiDoc")[0].value;/*Ajustes*/
+        fetch('https://adocolombia-qa.ado-tech.com/FiducolmenaQA/api/FiducolmenaQA/FindByNumberId?identification=' + numero_documento + 'ReuestNumber' + request_number +'& docType=1 & returnImages=false',
+
+            {
+                method: 'GET',
+                timeout: 0,
+                headers: {
+                    apiKey: 'db92efc69991'
+                }
+        })
+        .then(res => res.json())
+        .then(data => {
+            //document.getElementById('contenido').innerHTML =
+            //    `
+            //    <p>Primer Nombre: ${data.FirstName} </p>
+            //    <p>Segundo nombre: ${data.SecondName}</p>
+            //    <p>Primer apellido: ${data.FirstSurname}</p>
+            //    <p>Segundo Apellido: ${data.SecondSurname}</p>
+            //    <p>Fecha expedicion: ${data.IssueDate.substring(0, 10)}</p>
+            //    `
+            document.getElementById('contenido').innerHTML =
+                `
+                            <div class ="col-md-6">
+                                <div class ="form-group">
+                                    <label><b>Fecha de expedición</b></label>
+                                    <input type="text" name="FechaExpe" class ="form-control" id="FechaExpe" value="" disabled/>
+                                </div>
+                            </div>
+                                 <div class ="col-12">
+                                    <div class ="row">
+                                        <div class ="col-md-6">
+                                            <div class ="form-group">
+                                                <label><b>Primer Nombre</b></label>
+                                                <input type="text" name="P_Nom" class ="form-control" id="P_Nom" value="${data.FirstName}" disabled />
+                                            </div>
+                                            <div class ="form-group">
+                                                <label><b>Primer Apellido</b></label>
+                                                <input type="text" name="P_Apell" class ="form-control" id="P_Apell" value="${data.FirstSurname}" disabled  />
+                                            </div>
+                                        </div>
+                                        <div class ="col-md-6">
+                                            <div class ="form-group">
+                                                <label><b>Segundo Nombre</b></label>
+                                                <input type="text" name="S_Nom" class ="form-control" id="S_Nom" value="${data.SecondName}"disabled />
+                                            </div>
+
+                                            <div class ="form-group">
+                                                <label><b>Segundo Apellido</b></label>
+                                                <input type="text" name="S_Apell" class ="form-control" id="S_Apell" value="${data.SecondSurname}" disabled/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                `
+        })
+    }
+
+    $('#exampleModal').modal('show');
+
+
+
+
+
+
+
+
+    </script>
+</body>
+</html>
