@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using RestSharp;
+using System.Web.Script.Serialization;
 
 namespace Fiducolmena.Controllers
 {
@@ -33,15 +34,32 @@ namespace Fiducolmena.Controllers
                     {
                         identificationType2 = "2";
                     }
-                     var list2 = db.Persona_fidu.Where(x => x.identificacion == NumIdentifica).FirstOrDefault();
+                    var list2 = db.Persona_fidu.Where(x => x.identificacion == NumIdentifica).FirstOrDefault();
                     if (list2 != null)
                     {
                         /* Validacion */
                         var rqn = db.BiometricValidationState.Where(x => x.RequestNumber == RequestNumber).FirstOrDefault();
-                        if (rqn != null) {
+                        if (rqn != null)
+                        {
                             Session["numero_documento"] = NumIdentifica;
 
-                            return Redirect("https://adocolombia-qa.ado-tech.com/FiducolmenaQA/verificar-persona?callback=https://fiducolmena.oigame.com.co/Home/ProcesoExitoso&key=db92efc69991&projectName=FiducolmenaQA&documentType=" + identificationType2 + "&identificationNumber=" + NumIdentifica + "");
+                            var baseUrl = "https://adocolombia-qa.ado-tech.com/FiducolmenaQA/verificar-persona?&key={0}&projectName={1}&";
+                            var projectkey = "db92efc69991";
+                            var projectName = "FiducolmenaQA";
+                            baseUrl = string.Format(baseUrl, projectkey, projectName);
+                            JavaScriptSerializer serializer = new JavaScriptSerializer();
+                            var parameterObject = new
+                            {
+                                documentType = identificationType2,
+                                identificationNumber = NumIdentifica,
+                                requestNumber = RequestNumber
+                            };
+                            var parametersSerializer = serializer.Serialize(parameterObject);
+                            var urlCalback = string.Format("callback=https://fiducolmena.oigame.com.co/Home/ProcesoExitoso&Parameters={0}", parametersSerializer);
+
+
+                            return Redirect(string.Format("{0}{1}", baseUrl, urlCalback));
+                            // return Redirect("https://adocolombia-qa.ado-tech.com/FiducolmenaQA/verificar-persona?callback=https://fiducolmena.oigame.com.co/Home/ProcesoExitoso&key=db92efc69991&projectName=FiducolmenaQA&documentType=" + identificationType2 + "&identificationNumber=" + NumIdentifica + "");
 
                         }
                         else
@@ -50,7 +68,7 @@ namespace Fiducolmena.Controllers
                             db.SaveChanges();/*crear pagina de Proceso no exitoso*/
                             return Redirect("https://adocolombia-qa.ado-tech.com/FiducolmenaQA/validar-persona?callback=https://fiducolmena.oigame.com.co/Home/ProcesoNoExitoso&key=db92efc69991&projectName=FiducolmenaQA");
                         }
-                        
+
                     }
                     else
                     {
@@ -67,31 +85,35 @@ namespace Fiducolmena.Controllers
             }
         }
 
-        [HttpPost]
-        public ActionResult ProcesoExitoso(string documentType, string identificationNumber, string requestNumber)
+        [HttpGet]
+        public ActionResult ProcesoExitoso()
         {
-            string NumIdentifica = Session["numero_documento"].ToString();
-            //dynamic returnObj = Request. 
+            dynamic returnObj = Request.QueryString["_Response"];
+            JavaScriptSerializer serializer = new JavaScriptSerializer();
+            var callbackModel = serializer.Deserialize<AdoCallBackModel>(Request.QueryString["_Response"]);
+
+            var parameters = System.Web.Helpers.Json.Decode(callbackModel.Parameters);
+            var documentType = parameters.documentType;
+            var identificationNumber = parameters.identificationNumber;
+            var requestNumber = parameters.requestNumber;
+
             caches();
-            using (var db = new SARLAFTFIDUCOLMENAEntities())
-            {
-                var request = (from b in db.BiometricValidationState where b.IdentificationNumber == NumIdentifica select b.RequestNumber).FirstOrDefault();
-                var IdenNumb = (from b in db.BiometricValidationState where b.IdentificationNumber == NumIdentifica select b.IdentificationNumber).FirstOrDefault();
-                var client = new RestClient("https://fiducolmenabiometricval.oigame.com.co/api/v1/BiometricValidation/"+"RequestNumber" + request + "/IdentityValidation"+IdenNumb+"");
 
-                client.Timeout = -1;
+            var client = new RestClient("https://fiducolmenabiometricval.oigame.com.co/api/v1/BiometricValidation/" + requestNumber + "/IdentityValidation/" + callbackModel.TransactionId);
 
-                var request2 = new RestRequest(Method.POST);
+            client.Timeout = -1;
 
-                request2.AddHeader("Content-Type", "application/json");
+            var request2 = new RestRequest(Method.POST);
 
-                request2.AddHeader("Accept", "application/json");
+            request2.AddHeader("Content-Type", "application/json");
 
-                IRestResponse response = client.Execute(request2);
+            request2.AddHeader("Accept", "application/json");
 
-                Console.WriteLine(response.Content);
-                return View();
-            }
+            IRestResponse response = client.Execute(request2);
+
+            Console.WriteLine(response.Content);
+            return View();
+
         }
 
         [HttpPost]
