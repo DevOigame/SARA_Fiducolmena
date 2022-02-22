@@ -99,17 +99,18 @@ namespace Fiducolmena.Controllers
 
             caches();
 
-            var client = new RestClient("https://fiducolmenabiometricval.oigame.com.co/api/v1/BiometricValidation/" + requestNumber + "/IdentityValidation/" + callbackModel.TransactionId);
+            var client = new RestClient("https://fiducolmenabiometricval.oigame.com.co/api/v1/BiometricValidation/" + requestNumber + "/IdentityValidation/");
 
             client.Timeout = -1;
 
-            var request2 = new RestRequest(Method.POST);
+            var serviceRequest = new RestRequest(Method.POST);
 
-            request2.AddHeader("Content-Type", "application/json");
+            serviceRequest.AddBody(new { transactionId = callbackModel.TransactionId });
+            serviceRequest.AddHeader("Content-Type", "application/json");
 
-            request2.AddHeader("Accept", "application/json");
+            serviceRequest.AddHeader("Accept", "application/json");
 
-            IRestResponse response = client.Execute(request2);
+            IRestResponse response = client.Execute(serviceRequest);
 
             Console.WriteLine(response.Content);
             return View();
