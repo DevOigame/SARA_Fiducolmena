@@ -26,8 +26,12 @@ namespace Fiducolmena.Controllers
             using (var db = new SARLAFTFIDUCOLMENAEntities())
             {
                 var list = db.Persona_val.Where(x => x.IDENTIFICATION_NUMBER == NumIdentifica).FirstOrDefault();
-                
-                
+                var PRequetNum = db.BiometricValidationState.Where(x => x.RequestNumber == RequestNumber).FirstOrDefault();
+
+                if (!RequestNumber.Equals(PRequetNum))
+                {
+                    return Content("<script language='javascript' type='text/javascript'>alert('Por favor verificar código de inicio o comunicarse con la constructora.'); document.location = '/Home/Index'; </script>");
+                }
                 if (list != null )
                 {
                     string identificationType2;
@@ -69,42 +73,10 @@ namespace Fiducolmena.Controllers
                         }
                         else
                         {
-                            var PRequetNum = db.BiometricValidationState.Where(x => x.RequestNumber == RequestNumber).FirstOrDefault();
-                            var PNumberId = db.BiometricValidationState.Where(x => x.IdentificationNumber == NumIdentifica).FirstOrDefault();
-                            if (!RequestNumber.Equals(PRequetNum) || !NumIdentifica.Equals(PNumberId))
-                            {
-                                return Content("<script language='javascript' type='text/javascript'>alert('Por favor verificar código de inicio o comunicarse con la constructora.'); document.location = '/Home/Index'; </script>");
-                            }
-                            else
-                            {
-                                db.sp_registro_inicial(list.ID_IDENTIFICATION_TYPE, NumIdentifica);
-                                db.SaveChanges();/*crear pagina de Proceso no exitoso*/
-                                var verificarPersonUrl = "https://adocolombia-qa.ado-tech.com/FiducolmenaQA/{0}?&key={1}&projectName={2}&";
-
-                                verificarPersonUrl = string.Format(verificarPersonUrl, "validar-persona", projectkey, projectName);
-
-                                //TODO: Pasar las URLs todas a variables de configuracion
-                                var urlCalback = string.Format("callback=https://fiducolmena.oigame.com.co/Home/ProcesoNoExitoso&Parameters={0}", parametersSerializer);
-
-                                return Redirect(string.Format("{0}{1}", verificarPersonUrl, urlCalback));
-                                //return Redirect("https://adocolombia-qa.ado-tech.com/FiducolmenaQA/validar-persona?callback=https://fiducolmena.oigame.com.co/Home/ProcesoNoExitoso&key=db92efc69991&projectName=FiducolmenaQA");
-
-                            }
-                        }
-                    }
-                    else
-                    {
-                        var PRequetNum = db.BiometricValidationState.Where(x => x.RequestNumber == RequestNumber).FirstOrDefault();
-                        var PNumberId = db.BiometricValidationState.Where(x => x.IdentificationNumber == NumIdentifica).FirstOrDefault();
-                        if (!RequestNumber.Equals(PRequetNum) || !NumIdentifica.Equals(PNumberId))
-                        {
-                            return Content("<script language='javascript' type='text/javascript'>alert('Por favor verificar código de inicio o comunicarse con la constructora.'); document.location = '/Home/Index'; </script>");
-                        }
-                        else
-                        {
-                            /* Enrolamiento */ /*Proceso no exitoso o Proceso exitoso*/
+                                                     
+                            
                             db.sp_registro_inicial(list.ID_IDENTIFICATION_TYPE, NumIdentifica);
-                            db.SaveChanges();
+                            db.SaveChanges();/*crear pagina de Proceso no exitoso*/
                             var verificarPersonUrl = "https://adocolombia-qa.ado-tech.com/FiducolmenaQA/{0}?&key={1}&projectName={2}&";
 
                             verificarPersonUrl = string.Format(verificarPersonUrl, "validar-persona", projectkey, projectName);
@@ -115,7 +87,27 @@ namespace Fiducolmena.Controllers
                             return Redirect(string.Format("{0}{1}", verificarPersonUrl, urlCalback));
                             //return Redirect("https://adocolombia-qa.ado-tech.com/FiducolmenaQA/validar-persona?callback=https://fiducolmena.oigame.com.co/Home/ProcesoNoExitoso&key=db92efc69991&projectName=FiducolmenaQA");
 
+                            
                         }
+                    }
+                    else
+                    {
+                                              
+                        
+                        /* Enrolamiento */ /*Proceso no exitoso o Proceso exitoso*/
+                        db.sp_registro_inicial(list.ID_IDENTIFICATION_TYPE, NumIdentifica);
+                        db.SaveChanges();
+                        var verificarPersonUrl = "https://adocolombia-qa.ado-tech.com/FiducolmenaQA/{0}?&key={1}&projectName={2}&";
+
+                        verificarPersonUrl = string.Format(verificarPersonUrl, "validar-persona", projectkey, projectName);
+
+                        //TODO: Pasar las URLs todas a variables de configuracion
+                        var urlCalback = string.Format("callback=https://fiducolmena.oigame.com.co/Home/ProcesoNoExitoso&Parameters={0}", parametersSerializer);
+
+                        return Redirect(string.Format("{0}{1}", verificarPersonUrl, urlCalback));
+                        //return Redirect("https://adocolombia-qa.ado-tech.com/FiducolmenaQA/validar-persona?callback=https://fiducolmena.oigame.com.co/Home/ProcesoNoExitoso&key=db92efc69991&projectName=FiducolmenaQA");
+
+                       
                     }
                 }
                 else
