@@ -26,9 +26,9 @@ namespace Fiducolmena.Controllers
             using (var db = new SARLAFTFIDUCOLMENAEntities())
             {
                 var list = db.Persona_val.Where(x => x.IDENTIFICATION_NUMBER == NumIdentifica).FirstOrDefault();
-                var PRequetNum = db.BiometricValidationState.Where(x => x.RequestNumber == RequestNumber).FirstOrDefault();
+                var PRequetNum = db.Persona_val.Where(x => x.REQUEST_NUMBER == RequestNumber).FirstOrDefault();
 
-                if (!RequestNumber.Equals(PRequetNum))
+                if (!PRequetNum.REQUEST_NUMBER.Equals(RequestNumber))
                 {
                     return Content("<script language='javascript' type='text/javascript'>alert('Por favor verificar código de inicio o comunicarse con la constructora.'); document.location = '/Home/Index'; </script>");
                 }
@@ -85,15 +85,14 @@ namespace Fiducolmena.Controllers
                             var urlCalback = string.Format("callback=https://fiducolmena.oigame.com.co/Home/ProcesoNoExitoso&Parameters={0}", parametersSerializer);
 
                             return Redirect(string.Format("{0}{1}", verificarPersonUrl, urlCalback));
-                            //return Redirect("https://adocolombia-qa.ado-tech.com/FiducolmenaQA/validar-persona?callback=https://fiducolmena.oigame.com.co/Home/ProcesoNoExitoso&key=db92efc69991&projectName=FiducolmenaQA");
+                            
 
                             
                         }
                     }
                     else
                     {
-                                              
-                        
+
                         /* Enrolamiento */ /*Proceso no exitoso o Proceso exitoso*/
                         db.sp_registro_inicial(list.ID_IDENTIFICATION_TYPE, NumIdentifica);
                         db.SaveChanges();
@@ -105,7 +104,7 @@ namespace Fiducolmena.Controllers
                         var urlCalback = string.Format("callback=https://fiducolmena.oigame.com.co/Home/ProcesoNoExitoso&Parameters={0}", parametersSerializer);
 
                         return Redirect(string.Format("{0}{1}", verificarPersonUrl, urlCalback));
-                        //return Redirect("https://adocolombia-qa.ado-tech.com/FiducolmenaQA/validar-persona?callback=https://fiducolmena.oigame.com.co/Home/ProcesoNoExitoso&key=db92efc69991&projectName=FiducolmenaQA");
+                        
 
                        
                     }
