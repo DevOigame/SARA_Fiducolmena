@@ -20,8 +20,9 @@ namespace Fiducolmena.Controllers
         public ActionResult Prevalidacion(string NumIdentifica, string RequestNumber)
         {
             //TODO: estas variables se deben cargar desde configuracion
-             var projectkey = "db92efc69991";
-             var projectName = "FiducolmenaQA";
+            var projectkey = "db92efc69991";
+            var projectName = "FiducolmenaQA";
+            var verificarPersonUrl = "https://adocolombia-qa.ado-tech.com/FiducolmenaQA/{0}?&key={1}&projectName={2}&";
 
             caches();
             using (var db = new SARLAFTFIDUCOLMENAEntities())
@@ -58,7 +59,7 @@ namespace Fiducolmena.Controllers
                     {
                         /* Validacion */
                         Session["numero_documento"] = NumIdentifica;
-                        var verificarPersonUrl = "https://adocolombia-qa.ado-tech.com/FiducolmenaQA/{0}?&key={1}&projectName={2}&";
+
                         verificarPersonUrl = string.Format(verificarPersonUrl, "verificar-persona", projectkey, projectName);
                         //TODO: Pasar las URLs todas a variables de configuracion
                         var urlCalback = string.Format("callback=https://fiducolmena.oigame.com.co/Home/ProcesoExitoso&Parameters={0}", parametersSerializer);
@@ -70,7 +71,7 @@ namespace Fiducolmena.Controllers
                         db.sp_registro_inicial(list.ID_IDENTIFICATION_TYPE, NumIdentifica);
                         db.SaveChanges();
 
-                        var verificarPersonUrl = "https://adocolombia-qa.ado-tech.com/FiducolmenaQA/{0}?&key={1}&projectName={2}&";
+                        //var verificarPersonUrl = "https://adocolombia-qa.ado-tech.com/FiducolmenaQA/{0}?&key={1}&projectName={2}&";
                         verificarPersonUrl = string.Format(verificarPersonUrl, "validar-persona", projectkey, projectName);
                         //TODO: Pasar las URLs todas a variables de configuracion
                         var urlCalback = string.Format("callback=https://fiducolmena.oigame.com.co/Home/ProcesoExitoso&Parameters={0}", parametersSerializer);
@@ -109,11 +110,11 @@ namespace Fiducolmena.Controllers
             var parameters = System.Web.Helpers.Json.Decode(callbackModel.Parameters);
             var documentType = parameters.documentType;
             var identificationNumber = parameters.identificationNumber;
-            var RequestNumber = parameters.RequestNumber;
+            var requestNumber = parameters.requestNumber;
 
             caches();
-            
-            var client = new RestClient("https://fiducolmenabiometricval.oigame.com.co/api/v1/BiometricValidation/" + identificationNumber + "/IdentityValidation");
+
+            var client = new RestClient("https://fiducolmenabiometricval.oigame.com.co/api/v1/BiometricValidation/" + requestNumber + "/IdentityValidation");
 
             client.Timeout = -1;
 
