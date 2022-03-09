@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using RestSharp;
 using System.Web.Script.Serialization;
+using System.Configuration;
 
 namespace Fiducolmena.Controllers
 {
@@ -22,7 +23,9 @@ namespace Fiducolmena.Controllers
             //TODO: estas variables se deben cargar desde configuracion
             var projectkey = "db92efc69991";
             var projectName = "FiducolmenaQA";
-            var verificarPersonUrl = "https://adocolombia-qa.ado-tech.com/FiducolmenaQA/{0}?&key={1}&projectName={2}&";
+            var verificarPersonUrl = "https://adocolombia-qa.ado-tech.com/FiducolmenaQA/{0}?key={1}&projectName={2}&";            
+
+            var urlCallback = @"callback=https://"+ ConfigurationManager.AppSettings["hostUrl"] +"/Home/ProcesoExitoso&Parameters={0}";
 
             caches();
             using (var db = new SARLAFTFIDUCOLMENAEntities())
@@ -62,8 +65,8 @@ namespace Fiducolmena.Controllers
 
                         verificarPersonUrl = string.Format(verificarPersonUrl, "verificar-persona", projectkey, projectName);
                         //TODO: Pasar las URLs todas a variables de configuracion
-                        var urlCalback = string.Format("callback=https://fiducolmena.oigame.com.co/Home/ProcesoExitoso&Parameters={0}", parametersSerializer);
-                        return Redirect(string.Format("{0}{1}", verificarPersonUrl, urlCalback));
+                        urlCallback = string.Format(urlCallback, parametersSerializer);
+                        return Redirect(string.Format("{0}{1}", verificarPersonUrl, urlCallback));
                     }
                     else
                     {
@@ -71,12 +74,12 @@ namespace Fiducolmena.Controllers
                         db.sp_registro_inicial(list.ID_IDENTIFICATION_TYPE, NumIdentifica);
                         db.SaveChanges();
 
-                        //var verificarPersonUrl = "https://adocolombia-qa.ado-tech.com/FiducolmenaQA/{0}?&key={1}&projectName={2}&";
+                        //var verificarPersonUrl = "https://adocolombia-qa.ado-tech.com/FiducolmenaQA/{0}&key={1}&projectName={2}&";
                         verificarPersonUrl = string.Format(verificarPersonUrl, "validar-persona", projectkey, projectName);
                         //TODO: Pasar las URLs todas a variables de configuracion
-                        var urlCalback = string.Format("callback=https://fiducolmena.oigame.com.co/Home/ProcesoExitoso&Parameters={0}", parametersSerializer);
+                        urlCallback = string.Format(urlCallback, urlCallback);
 
-                        return Redirect(string.Format("{0}{1}", verificarPersonUrl, urlCalback));
+                        return Redirect(string.Format("{0}{1}", verificarPersonUrl, urlCallback));
                     }
                 }
                 else
