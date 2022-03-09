@@ -20,19 +20,20 @@ namespace Fiducolmena.Controllers
         public ActionResult Prevalidacion(string NumIdentifica, string RequestNumber)
         {
             //TODO: estas variables se deben cargar desde configuracion
-            var projectkey = "db92efc69991";
-            var projectName = "FiducolmenaQA";
+             var projectkey = "db92efc69991";
+             var projectName = "FiducolmenaQA";
+
             caches();
             using (var db = new SARLAFTFIDUCOLMENAEntities())
             {
-                var list = db.Persona_val.Where(x => x.IDENTIFICATION_NUMBER == NumIdentifica).FirstOrDefault();
-                var PRequetNum = db.Persona_val.Where(x => x.REQUEST_NUMBER == RequestNumber).FirstOrDefault();
-
-                if (!PRequetNum.REQUEST_NUMBER.Equals(RequestNumber))
+                var rqn = db.Persona_val.Where(x => x.REQUEST_NUMBER == RequestNumber).FirstOrDefault();
+                if (!RequestNumber.Equals(rqn.REQUEST_NUMBER))
                 {
-                    return Content("<script language='javascript' type='text/javascript'>alert('Por favor verificar código de inicio o comunicarse con la constructora.'); document.location = '/Home/Index'; </script>");
+                    return Content("<script language='javascript' type='text/javascript'>alert('Rectificar número de encargo o comunicarse con la constructora.'); document.location = '/Home/Index'; </script>");
                 }
-                if (list != null )
+
+                var list = db.Persona_val.Where(x => x.IDENTIFICATION_NUMBER == NumIdentifica).FirstOrDefault();
+                if (list != null)
                 {
                     string identificationType2;
                     if (list.ID_IDENTIFICATION_TYPE == "CC")
@@ -43,7 +44,6 @@ namespace Fiducolmena.Controllers
                     {
                         identificationType2 = "2";
                     }
-                    var list2 = db.Persona_fidu.Where(x => x.identificacion == NumIdentifica).FirstOrDefault();
                     JavaScriptSerializer serializer = new JavaScriptSerializer();
                     var parameterObject = new
                     {
@@ -53,60 +53,29 @@ namespace Fiducolmena.Controllers
                     };
                     var parametersSerializer = serializer.Serialize(parameterObject);
 
+                    var list2 = db.Persona_fidu.Where(x => x.identificacion == NumIdentifica).FirstOrDefault();
                     if (list2 != null)
                     {
                         /* Validacion */
-                        var rqn = db.BiometricValidationState.Where(x => x.RequestNumber == RequestNumber).FirstOrDefault();
-                        if (rqn != null)
-                        {
-                            Session["numero_documento"] = NumIdentifica;
-
-                            var verificarPersonUrl = "https://adocolombia-qa.ado-tech.com/FiducolmenaQA/{0}?&key={1}&projectName={2}&";
-
-                            verificarPersonUrl = string.Format(verificarPersonUrl, "verificar-persona", projectkey, projectName);
-
-                            //TODO: Pasar las URLs todas a variables de configuracion
-                            var urlCalback = string.Format("callback=https://fiducolmena.oigame.com.co/Home/ProcesoExitoso&Parameters={0}", parametersSerializer);
-
-                            return Redirect(string.Format("{0}{1}", verificarPersonUrl, urlCalback));
-
-                        }
-                        else
-                        {
-                                                     
-                            
-                            db.sp_registro_inicial(list.ID_IDENTIFICATION_TYPE, NumIdentifica);
-                            db.SaveChanges();/*crear pagina de Proceso no exitoso*/
-                            var verificarPersonUrl = "https://adocolombia-qa.ado-tech.com/FiducolmenaQA/{0}?&key={1}&projectName={2}&";
-
-                            verificarPersonUrl = string.Format(verificarPersonUrl, "validar-persona", projectkey, projectName);
-
-                            //TODO: Pasar las URLs todas a variables de configuracion
-                            var urlCalback = string.Format("callback=https://fiducolmena.oigame.com.co/Home/ProcesoNoExitoso&Parameters={0}", parametersSerializer);
-
-                            return Redirect(string.Format("{0}{1}", verificarPersonUrl, urlCalback));
-                            
-
-                            
-                        }
+                        Session["numero_documento"] = NumIdentifica;
+                        var verificarPersonUrl = "https://adocolombia-qa.ado-tech.com/FiducolmenaQA/{0}?&key={1}&projectName={2}&";
+                        verificarPersonUrl = string.Format(verificarPersonUrl, "verificar-persona", projectkey, projectName);
+                        //TODO: Pasar las URLs todas a variables de configuracion
+                        var urlCalback = string.Format("callback=https://fiducolmena.oigame.com.co/Home/ProcesoExitoso&Parameters={0}", parametersSerializer);
+                        return Redirect(string.Format("{0}{1}", verificarPersonUrl, urlCalback));
                     }
                     else
                     {
-
-                        /* Enrolamiento */ /*Proceso no exitoso o Proceso exitoso*/
+                        /* Enrolamiento */
                         db.sp_registro_inicial(list.ID_IDENTIFICATION_TYPE, NumIdentifica);
                         db.SaveChanges();
+
                         var verificarPersonUrl = "https://adocolombia-qa.ado-tech.com/FiducolmenaQA/{0}?&key={1}&projectName={2}&";
-
                         verificarPersonUrl = string.Format(verificarPersonUrl, "validar-persona", projectkey, projectName);
-
                         //TODO: Pasar las URLs todas a variables de configuracion
-                        var urlCalback = string.Format("callback=https://fiducolmena.oigame.com.co/Home/ProcesoNoExitoso&Parameters={0}", parametersSerializer);
+                        var urlCalback = string.Format("callback=https://fiducolmena.oigame.com.co/Home/ProcesoExitoso&Parameters={0}", parametersSerializer);
 
                         return Redirect(string.Format("{0}{1}", verificarPersonUrl, urlCalback));
-                        
-
-                       
                     }
                 }
                 else
@@ -115,6 +84,20 @@ namespace Fiducolmena.Controllers
                 }
             }
         }
+
+        //extrae informacion de la appi de ado y la imprime en la vista corriendo el <script> traer()
+        //public ActionResult Form3()
+        //{
+        //    string NumIdentifica = (string)Session["numero_documento"];
+        //    using (var db = new SARLAFTFIDUCOLMENAEntities())
+        //    {
+        //        var list = db.Persona_fidu.Where(x => x.identificacion == NumIdentifica).FirstOrDefault();
+        //        return View(list);
+
+        //    }
+        //}
+
+
 
         [HttpGet]
         public ActionResult ProcesoExitoso()
@@ -126,11 +109,11 @@ namespace Fiducolmena.Controllers
             var parameters = System.Web.Helpers.Json.Decode(callbackModel.Parameters);
             var documentType = parameters.documentType;
             var identificationNumber = parameters.identificationNumber;
-            var requestNumber = parameters.requestNumber;
+            var RequestNumber = parameters.RequestNumber;
 
             caches();
-
-            var client = new RestClient("https://fiducolmenabiometricval.oigame.com.co/api/v1/BiometricValidation/" + requestNumber + "/IdentityValidation");
+            
+            var client = new RestClient("https://fiducolmenabiometricval.oigame.com.co/api/v1/BiometricValidation/" + identificationNumber + "/IdentityValidation");
 
             client.Timeout = -1;
 
@@ -148,7 +131,7 @@ namespace Fiducolmena.Controllers
             return View();
 
         }
-
+        /*Agregar campo requestnumber SQL*/
         [HttpPost]
         public ActionResult RegistroFinal1(string tiDoc, string numDoc, DateTime FechaExpe, string P_Nom, string S_Nom, string P_Apell, string S_Apell, bool select1, bool select2, bool select3)
         {

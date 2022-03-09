@@ -72,9 +72,8 @@ var contenido = document.querySelector('#contenido')
     function traer()
     {
         numero_documento = document.getElementsByName("numDoc")[0].value;
-        request_number = document.getElementsByName("ReqNum")[0].value;
-        tipo_identificacion = document.getElementsByName("tiDoc")[0].value;/*Ajustes*/
-        fetch('https://adocolombia-qa.ado-tech.com/FiducolmenaQA/api/FiducolmenaQA/FindByNumberId?identification=' + numero_documento + 'ReuestNumber' + request_number +'& docType=1 & returnImages=false',
+        tipo_identificacion = document.getElementsByName("tiDoc")[0].value;/*buscar por requestnumber*/
+        fetch('https://adocolombia-qa.ado-tech.com/FiducolmenaQA/api/FiducolmenaQA/FindByNumberId?identification=' + numero_documento +'& docType=1 & returnImages=false',
 
             {
                 method: 'GET',
@@ -133,14 +132,7 @@ var contenido = document.querySelector('#contenido')
         })
     }
 
-    $('#exampleModal').modal('show');
-
-
-
-
-
-
-
+        $('#exampleModal').modal('show');
 
     </script>
 </body>
