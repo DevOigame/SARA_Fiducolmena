@@ -29,6 +29,7 @@ namespace Fiducolmena.Models
 
     public class AdoCallBackModel
     {
+        public string RequestNumber { get; set; }
         public string Uid { get; set; }
         public string StartingDate { get; set; }
         public string CreationDate { get; set; }
@@ -89,6 +90,8 @@ namespace Fiducolmena.Models
         public List<Score> Scores { get; set; }
         public string Parameters { get; set; }
         public string StateSignatureDocument { get; set; }
+
+        
     }
 
 

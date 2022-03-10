@@ -18,7 +18,7 @@
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
-    <IISExpressSSLPort />
+    <IISExpressSSLPort>44358</IISExpressSSLPort>
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
@@ -190,6 +190,7 @@
     <Compile Include="Models\C__BiometricValidationStateDBContext.cs">
       <DependentUpon>SaraFiducolmenaModel1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Datos.cs" />
     <Compile Include="Models\Formulario.cs">
       <DependentUpon>SaraFiducolmenaModel1.tt</DependentUpon>
     </Compile>
