@@ -8,6 +8,7 @@ using RestSharp;
 using System.Web.Script.Serialization;
 using System.Configuration;
 
+
 namespace Fiducolmena.Controllers
 {
     public class HomeController : Controller
@@ -40,7 +41,7 @@ namespace Fiducolmena.Controllers
                 var list = db.Persona_val.Where(x => x.IDENTIFICATION_NUMBER == NumIdentifica).FirstOrDefault();
                 if (list != null)
                 {
-                    string identificationType2;
+                    /*string identificationType2;
                     if (list.ID_IDENTIFICATION_TYPE == "CC")
                     {
                         identificationType2 = "1";
@@ -48,29 +49,28 @@ namespace Fiducolmena.Controllers
                     else
                     {
                         identificationType2 = "2";
-                    }
+                    }*/
                     JavaScriptSerializer serializer = new JavaScriptSerializer();
                     var parameterObject = new
                     {
-                        documentType = identificationType2,
-                        identificationNumber = NumIdentifica,
                         requestNumber = RequestNumber
                     };
+
                     var parametersSerializer = serializer.Serialize(parameterObject);
 
-                    
-                        /* Enrolamiento */
-                        db.sp_registro_inicial(list.ID_IDENTIFICATION_TYPE, NumIdentifica);
-                        db.SaveChanges();
 
-                        var verificarPersonUrl = "https://adocolombia-qa.ado-tech.com/FiducolmenaQA/{0}?&key={1}&projectName={2}&";
+                    /* Enrolamiento */
+                    db.sp_registro_inicial(list.ID_IDENTIFICATION_TYPE, NumIdentifica);
+                    db.SaveChanges();
 
-                        verificarPersonUrl = string.Format(verificarPersonUrl, "validar-persona", projectkey, projectName);
+                    var verificarPersonUrl = "https://adocolombia-qa.ado-tech.com/FiducolmenaQA/{0}?&key={1}&projectName={2}&";
 
-                        //TODO: Pasar las URLs todas a variables de configuracion
-                        var urlCallback = string.Format("callback=https://fiducolmena.oigame.com.co/Home/ProcesoExitoso&Parameters={0}", parametersSerializer);
+                    verificarPersonUrl = string.Format(verificarPersonUrl, "validar-persona", projectkey, projectName);
 
-                        return Redirect(string.Format("{0}{1}", verificarPersonUrl, urlCallback));
+                    //TODO: Pasar las URLs todas a variables de configuracion
+                    var urlCallback = string.Format("callback=https://fiducolmena.oigame.com.co/Home/ProcesoExitoso&Parameters={0}", parametersSerializer);
+
+                    return Redirect(string.Format("{0}{1}", verificarPersonUrl, urlCallback));
                 }
                 else
                 {
@@ -92,9 +92,9 @@ namespace Fiducolmena.Controllers
         //}
 
 
-
+        
         [HttpGet]
-        public ActionResult ProcesoExitoso(string Parameters)
+        public ActionResult ProcesoExitoso()
         {
             dynamic returnObj = Request.QueryString["_Response"];
             JavaScriptSerializer serializer = new JavaScriptSerializer();
@@ -123,9 +123,8 @@ namespace Fiducolmena.Controllers
 
             Console.WriteLine(response.Content);
             return View();
-
         }
-        /*Agregar campo requestnumber SQL*/
+        
         [HttpPost]
         public ActionResult RegistroFinal1(string tiDoc, string numDoc, DateTime FechaExpe, string P_Nom, string S_Nom, string P_Apell, string S_Apell, bool select1, bool select2, bool select3)
         {
