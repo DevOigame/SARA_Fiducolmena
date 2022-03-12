@@ -7,7 +7,7 @@ using System.Web.Mvc;
 using RestSharp;
 using System.Web.Script.Serialization;
 using System.Configuration;
-
+using System.Net;
 
 namespace Fiducolmena.Controllers
 {
@@ -21,56 +21,42 @@ namespace Fiducolmena.Controllers
         [HttpPost]
         public ActionResult Prevalidacion(string NumIdentifica, string RequestNumber)
         {
-            //TODO: estas variables se deben cargar desde configuracion
 
-            var projectkey = "db92efc69991";
-            var projectName = "FiducolmenaQA";
-            //var verificarPersonUrl = "https://adocolombia-qa.ado-tech.com/FiducolmenaQA/{0}?key={1}&projectName={2}&";
+            var projectkey = ConfigurationManager.AppSettings["projectKey"];
+            var projectName = ConfigurationManager.AppSettings["projectName"];
+            var adoHostUrl = ConfigurationManager.AppSettings["adoHostUrl"];
+            var validarPersonUrl = string.Format("https://{0}/{2}/validar-persona?key={1}&projectName={2}&", adoHostUrl, projectkey, projectName);
 
-            //var urlCallback = @"callback=https://" + ConfigurationManager.AppSettings["hostUrl"] + "/Home/ProcesoExitoso&Parameters={0}";
+            var urlCallback = string.Format("callback=https://{0}/Home/ProcesoExitoso", ConfigurationManager.AppSettings["callbackHostUrl"]);
 
             caches();
             using (var db = new SARLAFTFIDUCOLMENAEntities())
             {
-                var rqn = db.Persona_val.Where(x => x.REQUEST_NUMBER == RequestNumber).FirstOrDefault();
+                //TODO: Esta consulta se puede mejorar, se esta consultando 2 veces la misma tabla. Mejorar la logica
+                var rqn = db.Persona_val.FirstOrDefault(x => x.REQUEST_NUMBER == RequestNumber);
                 if (!RequestNumber.Equals(rqn.REQUEST_NUMBER))
                 {
                     return Content("<script language='javascript' type='text/javascript'>alert('Rectificar número de encargo o comunicarse con la constructora.'); document.location = '/Home/Index'; </script>");
                 }
 
-                var list = db.Persona_val.Where(x => x.IDENTIFICATION_NUMBER == NumIdentifica).FirstOrDefault();
-                if (list != null)
+                var registeredPerson = db.Persona_val.FirstOrDefault(x => x.IDENTIFICATION_NUMBER == NumIdentifica);
+                if (registeredPerson != null)
                 {
-                    /*string identificationType2;
-                    if (list.ID_IDENTIFICATION_TYPE == "CC")
-                    {
-                        identificationType2 = "1";
-                    }
-                    else
-                    {
-                        identificationType2 = "2";
-                    }*/
                     JavaScriptSerializer serializer = new JavaScriptSerializer();
                     var parameterObject = new
                     {
                         requestNumber = RequestNumber
                     };
-
                     var parametersSerializer = serializer.Serialize(parameterObject);
 
-
                     /* Enrolamiento */
-                    db.sp_registro_inicial(list.ID_IDENTIFICATION_TYPE, NumIdentifica);
+                    db.sp_registro_inicial(registeredPerson.ID_IDENTIFICATION_TYPE, NumIdentifica);
                     db.SaveChanges();
 
-                    var verificarPersonUrl = "https://adocolombia-qa.ado-tech.com/FiducolmenaQA/{0}?&key={1}&projectName={2}&";
-
-                    verificarPersonUrl = string.Format(verificarPersonUrl, "validar-persona", projectkey, projectName);
-
                     //TODO: Pasar las URLs todas a variables de configuracion
-                    var urlCallback = string.Format("callback=https://fiducolmena.oigame.com.co/Home/ProcesoExitoso&Parameters={0}", parametersSerializer);
+                    urlCallback = string.Format(urlCallback + "&Parameters={0}", parametersSerializer);
 
-                    return Redirect(string.Format("{0}{1}", verificarPersonUrl, urlCallback));
+                    return Redirect(string.Format("{0}{1}", validarPersonUrl, urlCallback));
                 }
                 else
                 {
@@ -79,52 +65,34 @@ namespace Fiducolmena.Controllers
             }
         }
 
-        //extrae informacion de la appi de ado y la imprime en la vista corriendo el <script> traer()
-        //public ActionResult Form3()
-        //{
-        //    string NumIdentifica = (string)Session["numero_documento"];
-        //    using (var db = new SARLAFTFIDUCOLMENAEntities())
-        //    {
-        //        var list = db.Persona_fidu.Where(x => x.identificacion == NumIdentifica).FirstOrDefault();
-        //        return View(list);
-
-        //    }
-        //}
-
-
-        
         [HttpGet]
         public ActionResult ProcesoExitoso()
         {
-            dynamic returnObj = Request.QueryString["_Response"];
             JavaScriptSerializer serializer = new JavaScriptSerializer();
             var callbackModel = serializer.Deserialize<AdoCallBackModel>(Request.QueryString["_Response"]);
 
             var parameters = System.Web.Helpers.Json.Decode(callbackModel.Parameters);
-            var documentType = parameters.documentType;
-            var IdNumber = parameters.IdNumber;
             var requestNumber = parameters.RequestNumber;
 
             caches();
-
-            var client = new RestClient("https://fiducolmenabiometricval.oigame.com.co/api/v1/BiometricValidation/" + requestNumber + "/IdentityValidation");
-
-            client.Timeout = -1;
+            var serviceHostUrl = ConfigurationManager.AppSettings["serviceUrl"];
+            var serviceUrl = string.Format("{0}/api/v1/BiometricValidation/{1}/IdentityValidation", serviceHostUrl, requestNumber);
+            var client = new RestClient(serviceUrl);
 
             var serviceRequest = new RestRequest(Method.POST);
-
             serviceRequest.RequestFormat = DataFormat.Json;
-            serviceRequest.AddBody(new { transactionId = callbackModel.TransactionId });
             serviceRequest.AddHeader("Content-Type", "application/json");
-
             serviceRequest.AddHeader("Accept", "application/json");
+            serviceRequest.AddBody(new { transactionId = callbackModel.TransactionId });
 
-            IRestResponse response = client.Execute(serviceRequest);
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+            ServicePointManager.Expect100Continue = true;
+            IRestResponse response = client.ExecutePostAsync(serviceRequest).Result;
 
             Console.WriteLine(response.Content);
             return View();
         }
-        
+
         [HttpPost]
         public ActionResult RegistroFinal1(string tiDoc, string numDoc, DateTime FechaExpe, string P_Nom, string S_Nom, string P_Apell, string S_Apell, bool select1, bool select2, bool select3)
         {
