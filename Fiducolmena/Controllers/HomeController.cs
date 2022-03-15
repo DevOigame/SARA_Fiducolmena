@@ -75,7 +75,7 @@ namespace Fiducolmena.Controllers
             var requestNumber = parameters.RequestNumber;
 
             caches();
-            var serviceHostUrl = ConfigurationManager.AppSettings["serviceUrl"];
+            var serviceHostUrl = ConfigurationManager.AppSettings["serviceHostUrl"];
             var serviceUrl = string.Format("{0}/api/v1/BiometricValidation/{1}/IdentityValidation", serviceHostUrl, requestNumber);
             var client = new RestClient(serviceUrl);
 
