@@ -1,0 +1,341 @@
+﻿@model IEnumerable<Fiducolmena.Models.Persona_fidu>
+@{
+    ViewBag.Title = "Fiducolmena";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<label for="file">Progreso:</label>
+<progress id="file" max="100" value="50"></progress>
+<label class="file" for="file">50%</label>
+<br />
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-2"></div>
+            <!-- left column -->
+            <div class="col-md-8">
+                <!-- jquery validation -->
+                <div class="card">
+
+                    <div class="card-1">
+                        <img class="Cabecera" src="~/Imagenes/CabeFidu.PNG" />
+                    </div>
+                    <div class="card-header">
+                        <h3 class="card-title">Pre Vinculación</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <!-- form start -->
+
+
+                    <div class="card-body">
+                        @foreach (var item in Model)
+                        {
+                            <div class="row">
+                                <form id="ValidarRegistro" method="post" action="PerNatural2">
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label><b>Fecha de Diligenciamineto</b></label>
+                                                <input type="datetime" name="fecha" class="form-control" id="fecha" disabled>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label><b>Proyecto Fiduciario</b></label>
+                                                <input type="text" name="Proyecto" class="form-control" id="Proyecto" disabled>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label><b>Tipo Identificación</b></label>
+                                                <input type="text" name="F_Dilegen" class="form-control" id="F_Dilegen" value="@Html.DisplayFor(modelItem => item.tipo_identificacion)">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label><b>Identificación</b></label>
+                                                <input type="text" name="Proyecto" class="form-control" id="Proyecto" value="@Html.DisplayFor(modelItem => item.identificacion)">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label><b>Fecha de expedición</b></label>
+                                                <input type="text" name="FechaExpe" class="form-control" id="FechaExpe" value="@(String.Format("{0:yyyy-MM-dd}",item.fecha_expedicion))">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label><b></b></label>
+                                                    <input type="submit" value="Consultar" class="btn btn-block btn-primaryfid btn-md" />
+                                                </div>
+                                            </div>
+                                    </div>
+                                </div>
+                                </form>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label><b>Primer Nombre</b></label>
+                                            <input type="text" name="P_Nom" class="form-control" id="P_Nom" value="@Html.DisplayFor(modelItem => item.primer_nombre)">
+                                        </div>
+                                        <div class="form-group">
+                                            <label><b>Primer Apellido</b></label>
+                                            <input type="text" name="P_Apell" class="form-control" id="P_Apell" value="@Html.DisplayFor(modelItem => item.primer_apellido)">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label><b>Segundo Nombre</b></label>
+                                            <input type="text" name="S_Nom" class="form-control" id="S_Nom" value="@Html.DisplayFor(modelItem => item.segundo_nombre)">
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label><b>Segundo Apellido</b></label>
+                                            <input type="text" name="S_Apell" class="form-control" id="S_Apell" value="@Html.DisplayFor(modelItem => item.segundo_apellido)">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+                        <h4>AUTORIZO TRATAMIENTO DE DATOS PERSONALES</h4>
+                        <hr />
+                        <div class="row">
+                            <div class="col-sm-8">
+                                <div class="icheck-primary d-inline">
+                                    <label for="radioPrimary3" class="InfCheck">
+                                        Para el ofrecimiento de bienes, productos y servicios que puedan ser de
+                                        mi interés, mediante la realización de campañas comerciales o el
+                                        desarrollo de convenios de marca compartida:
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="select1" id="exampleRadios1" value="option1">
+                                    <label class="form-check-label" for="exampleRadios1">
+                                        Si
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="select1" id="exampleRadios2" value="option2">
+                                    <label class="form-check-label" for="exampleRadios2">
+                                        No
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="row">
+                            <div class="col-sm-8">
+                                <div class="icheck-primary d-inline">
+                                    <label for="radioPrimary3" class="InfCheck">
+                                        Para hacer estudios sobre mis gustos, hábitos e intereses:
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group clearfix">
+                                    <div class="icheck-primary d-inline">
+                                        <input type="radio" id="radioPrimary1" name="select2">
+                                        <label for="radioPrimary1">
+                                            Si
+                                        </label>
+                                    </div><br />
+                                    <div class="icheck-primary d-inline">
+                                        <input type="radio" id="radioPrimary2" name="select2">
+                                        <label for="radioPrimary2">
+                                            No
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="row">
+                            <div class="col-sm-8">
+                                <div class="icheck-primary d-inline">
+                                    <label for="radioPrimary3" class="InfCheck">
+                                        Para que terceros me ofrezcan bienes, productos o servicios financieros
+                                        Complementarios a los adquiridos con la Fiduciaria:
+
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group clearfix">
+                                    <div class="icheck-primary d-inline">
+                                        <input type="radio" id="radioPrimary1" name="select3">
+                                        <label for="radioPrimary1">
+                                            Si
+                                        </label>
+                                    </div><br />
+                                    <div class="icheck-primary d-inline">
+                                        <input type="radio" id="radioPrimary2" name="select3">
+                                        <label for="radioPrimary2">
+                                            No
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label><b></b></label>
+                                <input type="submit" value="Nueva Vinculación " data-toggle="modal" data-target="#exampleModal" class="btn btn-block btn-primaryfid btn-md ">
+                            </div>
+                        </div>
+                        <form id="InfoProyecto" method="post" action="InfoProyecto">
+                            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-xl" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">
+                                                VINCULACIÓN CLIENTE PERSONA NATURAL
+                                            </h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <h4>Información del proyecto</h4>
+                                            <hr />
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label><b>Fecha de Diligenciamineto</b></label>
+                                                        <input type="datetime" name="fecha1" class="form-control" id="fecha1" placeholder="" disabled>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label><b>Proyecto Fiduciario</b></label>
+                                                        <input type="text" name="Proyecto" class="form-control" id="Proyecto" placeholder="" disabled>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label><b>Producto</b></label>
+                                                    <select class="custom-select" name="Producto" required>
+                                                        <option selected></option>
+                                                        <option>Producto 1</option>
+                                                        <option>Producto 2</option>
+                                                        <option>Producto 3</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-12">
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label><b>Número de Encargo</b></label>
+                                                            <div class="input-group">
+                                                                <div class="input-group-prepend">
+                                                                    <span class="input-group-text">127000</span>
+                                                                </div>
+                                                                <input type="text" name="Num_Enc" class="form-control" id="Num_Enc" placeholder="">
+                                                            </div>
+
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label><b>Unidad</b></label>
+                                                            <input type="text" name="S_Nom" class="form-control" id="S_Nom" placeholder="">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label><b>Cantidad de garajes</b></label>
+                                                            <input type="text" name="S_Apell" class="form-control" id="S_Apell" placeholder="">
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label><b>Ciudad</b></label>
+                                                            <input type="text" name="P_Apell" class="form-control" id="P_Apell" placeholder="">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label><b>Torre</b></label>
+                                                            <input type="text" name="S_Apell" class="form-control" id="S_Apell" placeholder="">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label><b>Cantidad de depósitos</b></label>
+                                                            <input type="text" name="S_Apell" class="form-control" id="S_Apell" placeholder="">
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label><b>Inmueble</b></label>
+                                                            <input type="text" name="P_Apell" class="form-control" id="P_Apell" placeholder="">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label><b>Valor del inmueble</b></label>
+                                                            <div class="input-group">
+                                                                <div class="input-group-prepend">
+                                                                    <span class="input-group-text">$</span>
+                                                                </div>
+                                                                <input type="text" class="form-control">
+                                                                <div class="input-group-append">
+                                                                    <span class="input-group-text">.00</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label><b>Valor de la cuota inicial</b></label>
+                                                            <div class="input-group">
+                                                                <div class="input-group-prepend">
+                                                                    <span class="input-group-text">$</span>
+                                                                </div>
+                                                                <input type="text" class="form-control">
+                                                                <div class="input-group-append">
+                                                                    <span class="input-group-text">.00</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                            <button type="button" class="btn btn-primaryfid">Cargar</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+
+
+
+
+
+                        <img class="imgvig" src="~/Imagenes/VigilFidu.PNG" />
+
+                        <img class="imglog" src="~/Imagenes/LogoFiducolmenaColor.PNG" />
+                        <p class="acompa">Fiduciaria Colmena S A administra los recursos en la etapa de preventas La obligación de la Fiduciaria es de medio y no de resultado.</p>
+
+                    </div>
+
+
+                </div>
+                
+            </div>
+
+        </div>
+
+    </div>
+</section>
+

@@ -1,0 +1,715 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="SARLAFTFIDUCOLMENAModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="SARLAFTFIDUCOLMENAModelStoreContainer">
+    <EntitySet Name="C__BiometricValidationStateDBContext" EntityType="SARLAFTFIDUCOLMENAModel.Store.C__BiometricValidationStateDBContext" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Autorizacion" EntityType="SARLAFTFIDUCOLMENAModel.Store.Autorizacion" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="BiometricValidationState" EntityType="SARLAFTFIDUCOLMENAModel.Store.BiometricValidationState" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Formulario" EntityType="SARLAFTFIDUCOLMENAModel.Store.Formulario" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Informacion_proyecto" EntityType="SARLAFTFIDUCOLMENAModel.Store.Informacion_proyecto" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Persona_fidu" EntityType="SARLAFTFIDUCOLMENAModel.Store.Persona_fidu" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Persona_val" EntityType="SARLAFTFIDUCOLMENAModel.Store.Persona_val" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="sysdiagrams" EntityType="SARLAFTFIDUCOLMENAModel.Store.sysdiagrams" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="vw_informacion_persona" EntityType="SARLAFTFIDUCOLMENAModel.Store.vw_informacion_persona" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="FK_Autorizacion_Persona" Association="SARLAFTFIDUCOLMENAModel.Store.FK_Autorizacion_Persona">
+      <End Role="Persona_fidu" EntitySet="Persona_fidu" />
+      <End Role="Autorizacion" EntitySet="Autorizacion" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Formulario_Persona" Association="SARLAFTFIDUCOLMENAModel.Store.FK_Formulario_Persona">
+      <End Role="Persona_fidu" EntitySet="Persona_fidu" />
+      <End Role="Formulario" EntitySet="Formulario" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Informacion_proyecto_Persona" Association="SARLAFTFIDUCOLMENAModel.Store.FK_Informacion_proyecto_Persona">
+      <End Role="Persona_fidu" EntitySet="Persona_fidu" />
+      <End Role="Informacion_proyecto" EntitySet="Informacion_proyecto" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="C__BiometricValidationStateDBContext">
+    <Key>
+      <PropertyRef Name="MigrationId" />
+    </Key>
+    <Property Name="MigrationId" Type="nvarchar" Nullable="false" MaxLength="150" />
+    <Property Name="ProductVersion" Type="nvarchar" Nullable="false" MaxLength="32" />
+  </EntityType>
+  <EntityType Name="Autorizacion">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="bigint" Nullable="false" />
+    <Property Name="autorizacion_1" Type="bit" Nullable="false" />
+    <Property Name="autorizacion_2" Type="bit" Nullable="false" />
+    <Property Name="autorizacion_3" Type="bit" Nullable="false" />
+    <Property Name="persona_id" Type="varchar" Nullable="false" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="BiometricValidationState">
+    <Key>
+      <PropertyRef Name="CorrelationId" />
+    </Key>
+    <Property Name="CorrelationId" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="CurrentState" Type="nvarchar" Nullable="true" MaxLength="64" />
+    <Property Name="Version" Type="int" Nullable="false" />
+    <Property Name="RequestNumber" Type="nvarchar" Nullable="true" MaxLength="50" />
+    <Property Name="IdentificationType" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="IdentificationNumber" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="FirstName" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="MiddleName" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="FirstSurname" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="SecondSurname" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Email" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="CellPhoneNumber" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="TelephoneNumber" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Unit" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Product" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="UserInformationReceived" Type="datetime" Nullable="true" />
+    <Property Name="UserInformationStored" Type="datetime" Nullable="true" />
+    <Property Name="EmailToValidationSended" Type="datetime" Nullable="true" />
+    <Property Name="IdentityValidationReceived" Type="datetime" Nullable="true" />
+    <Property Name="IdentityValidationSended" Type="datetime" Nullable="true" />
+    <Property Name="DocumentsToSignReceived" Type="datetime" Nullable="true" />
+    <Property Name="DocumentsToSignSended" Type="datetime" Nullable="true" />
+    <Property Name="DocumentsSignedReceived" Type="datetime" Nullable="true" />
+    <Property Name="DocumentsSignedStored" Type="datetime" Nullable="true" />
+    <Property Name="SignatureStampsGenerated" Type="bit" Nullable="false" />
+    <Property Name="SignatureEvidenceGenerated" Type="bit" Nullable="false" />
+    <Property Name="SignatureIntegrationServiceData" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Error" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="DateExpiry" Type="datetime" Nullable="true" />
+  </EntityType>
+  <EntityType Name="Formulario">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="bigint" Nullable="false" />
+    <Property Name="fecha_diligenciamiento" Type="datetime" Nullable="false" />
+    <Property Name="nombre_proceso" Type="varchar" Nullable="false" MaxLength="50" />
+    <Property Name="persona_id" Type="varchar" Nullable="false" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Informacion_proyecto">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="bigint" Nullable="false" />
+    <Property Name="producto" Type="varchar" Nullable="false" MaxLength="50" />
+    <Property Name="numero_encargo" Type="bigint" Nullable="false" />
+    <Property Name="ciudad" Type="varchar" Nullable="false" MaxLength="50" />
+    <Property Name="inmueble" Type="varchar" Nullable="false" MaxLength="50" />
+    <Property Name="unidad" Type="varchar" Nullable="false" MaxLength="50" />
+    <Property Name="torre" Type="varchar" Nullable="false" MaxLength="50" />
+    <Property Name="valor_inmueble" Type="bigint" Nullable="false" />
+    <Property Name="cantidad_garage" Type="bigint" Nullable="false" />
+    <Property Name="cantidad_depositos" Type="bigint" Nullable="false" />
+    <Property Name="valor_cuota_inicial" Type="bigint" Nullable="false" />
+    <Property Name="persona_id" Type="varchar" Nullable="false" MaxLength="50" />
+    <Property Name="Num_Enc_Fijo" Type="bigint" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Persona_fidu">
+    <Key>
+      <PropertyRef Name="identificacion" />
+    </Key>
+    <Property Name="identificacion" Type="varchar" Nullable="false" MaxLength="50" />
+    <Property Name="tipo_identificacion" Type="varchar" Nullable="false" MaxLength="50" />
+    <Property Name="fecha_expedicion" Type="datetime" Nullable="true" />
+    <Property Name="primer_nombre" Type="varchar" Nullable="true" MaxLength="50" />
+    <Property Name="segundo_nombre" Type="varchar" Nullable="true" MaxLength="50" />
+    <Property Name="primer_apellido" Type="varchar" Nullable="true" MaxLength="50" />
+    <Property Name="segundo_apellido" Type="varchar" Nullable="true" MaxLength="50" />
+    <Property Name="enroll" Type="varchar" Nullable="false" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Persona_val">
+    <Key>
+      <PropertyRef Name="IDENTIFICATION_NUMBER" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="IDENTIFICATION_NUMBER" Type="varchar" Nullable="false" MaxLength="50" />
+    <Property Name="ID_IDENTIFICATION_TYPE" Type="varchar" Nullable="true" MaxLength="20" />
+    <Property Name="FIRST_NAME" Type="varchar" Nullable="false" MaxLength="50" />
+    <Property Name="MIDDLE_NAME" Type="varchar" Nullable="false" MaxLength="50" />
+    <Property Name="FIRST_SURNAME" Type="varchar" Nullable="false" MaxLength="50" />
+    <Property Name="SECOND_SURNAME" Type="varchar" Nullable="false" MaxLength="50" />
+    <Property Name="MAIL_ADDRESS" Type="varchar" Nullable="true" MaxLength="150" />
+    <Property Name="TELEPHONE_NUMBER" Type="varchar" Nullable="true" MaxLength="15" />
+    <Property Name="CELLPHONE_NUMBER" Type="varchar" Nullable="true" MaxLength="15" />
+    <Property Name="REQUEST_NUMBER" Type="varchar" Nullable="false" MaxLength="50" />
+    <Property Name="PRODUCT" Type="varchar" Nullable="true" MaxLength="50" />
+    <Property Name="UNIT" Type="varchar" Nullable="true" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" Nullable="false" MaxLength="128" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" Nullable="true" />
+    <Property Name="definition" Type="varbinary(max)" Nullable="true" />
+  </EntityType>
+  <EntityType Name="vw_informacion_persona">
+    <Key>
+      <PropertyRef Name="identificacion" />
+      <PropertyRef Name="tipo_identificacion" />
+      <PropertyRef Name="autorizacion_1" />
+      <PropertyRef Name="autorizacion_2" />
+      <PropertyRef Name="autorizacion_3" />
+      <PropertyRef Name="producto" />
+      <PropertyRef Name="numero_encargo" />
+      <PropertyRef Name="ciudad" />
+      <PropertyRef Name="inmueble" />
+      <PropertyRef Name="unidad" />
+      <PropertyRef Name="torre" />
+      <PropertyRef Name="valor_inmueble" />
+      <PropertyRef Name="cantidad_garage" />
+      <PropertyRef Name="cantidad_depositos" />
+      <PropertyRef Name="valor_cuota_inicial" />
+      <PropertyRef Name="fecha_diligenciamiento" />
+      <PropertyRef Name="nombre_proceso" />
+    </Key>
+    <Property Name="identificacion" Type="varchar" Nullable="false" MaxLength="50" />
+    <Property Name="tipo_identificacion" Type="varchar" Nullable="false" MaxLength="50" />
+    <Property Name="fecha_expedicion" Type="datetime" Nullable="true" />
+    <Property Name="primer_nombre" Type="varchar" Nullable="true" MaxLength="50" />
+    <Property Name="segundo_nombre" Type="varchar" Nullable="true" MaxLength="50" />
+    <Property Name="primer_apellido" Type="varchar" Nullable="true" MaxLength="50" />
+    <Property Name="segundo_apellido" Type="varchar" Nullable="true" MaxLength="50" />
+    <Property Name="autorizacion_1" Type="bit" Nullable="false" />
+    <Property Name="autorizacion_2" Type="bit" Nullable="false" />
+    <Property Name="autorizacion_3" Type="bit" Nullable="false" />
+    <Property Name="producto" Type="varchar" Nullable="false" MaxLength="50" />
+    <Property Name="numero_encargo" Type="bigint" Nullable="false" />
+    <Property Name="ciudad" Type="varchar" Nullable="false" MaxLength="50" />
+    <Property Name="inmueble" Type="varchar" Nullable="false" MaxLength="50" />
+    <Property Name="unidad" Type="varchar" Nullable="false" MaxLength="50" />
+    <Property Name="torre" Type="varchar" Nullable="false" MaxLength="50" />
+    <Property Name="valor_inmueble" Type="bigint" Nullable="false" />
+    <Property Name="cantidad_garage" Type="bigint" Nullable="false" />
+    <Property Name="cantidad_depositos" Type="bigint" Nullable="false" />
+    <Property Name="valor_cuota_inicial" Type="bigint" Nullable="false" />
+    <Property Name="fecha_diligenciamiento" Type="datetime" Nullable="false" />
+    <Property Name="nombre_proceso" Type="varchar" Nullable="false" MaxLength="50" />
+  </EntityType>
+  <Association Name="FK_Autorizacion_Persona">
+    <End Role="Persona_fidu" Type="SARLAFTFIDUCOLMENAModel.Store.Persona_fidu" Multiplicity="1" />
+    <End Role="Autorizacion" Type="SARLAFTFIDUCOLMENAModel.Store.Autorizacion" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Persona_fidu">
+        <PropertyRef Name="identificacion" />
+      </Principal>
+      <Dependent Role="Autorizacion">
+        <PropertyRef Name="persona_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Formulario_Persona">
+    <End Role="Persona_fidu" Type="SARLAFTFIDUCOLMENAModel.Store.Persona_fidu" Multiplicity="1" />
+    <End Role="Formulario" Type="SARLAFTFIDUCOLMENAModel.Store.Formulario" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Persona_fidu">
+        <PropertyRef Name="identificacion" />
+      </Principal>
+      <Dependent Role="Formulario">
+        <PropertyRef Name="persona_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Informacion_proyecto_Persona">
+    <End Role="Persona_fidu" Type="SARLAFTFIDUCOLMENAModel.Store.Persona_fidu" Multiplicity="1" />
+    <End Role="Informacion_proyecto" Type="SARLAFTFIDUCOLMENAModel.Store.Informacion_proyecto" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Persona_fidu">
+        <PropertyRef Name="identificacion" />
+      </Principal>
+      <Dependent Role="Informacion_proyecto">
+        <PropertyRef Name="persona_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SARLAFTFIDUCOLMENAModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="C__BiometricValidationStateDBContext">
+          <Key>
+            <PropertyRef Name="MigrationId" />
+          </Key>
+          <Property Name="MigrationId" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ProductVersion" Type="String" MaxLength="32" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Autorizacion">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" />
+          <Property Name="autorizacion_1" Type="Boolean" Nullable="false" />
+          <Property Name="autorizacion_2" Type="Boolean" Nullable="false" />
+          <Property Name="autorizacion_3" Type="Boolean" Nullable="false" />
+          <Property Name="persona_id" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Persona_fidu" Relationship="Self.FK_Autorizacion_Persona" FromRole="Autorizacion" ToRole="Persona_fidu" />
+        </EntityType>
+        <EntityType Name="BiometricValidationState">
+          <Key>
+            <PropertyRef Name="CorrelationId" />
+          </Key>
+          <Property Name="CorrelationId" Type="Guid" Nullable="false" />
+          <Property Name="CurrentState" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="Version" Type="Int32" Nullable="false" />
+          <Property Name="RequestNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IdentificationType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IdentificationNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="FirstName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="MiddleName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="FirstSurname" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SecondSurname" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CellPhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TelephoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Unit" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Product" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="UserInformationReceived" Type="DateTime" Precision="7" />
+          <Property Name="UserInformationStored" Type="DateTime" Precision="7" />
+          <Property Name="EmailToValidationSended" Type="DateTime" Precision="7" />
+          <Property Name="IdentityValidationReceived" Type="DateTime" Precision="7" />
+          <Property Name="IdentityValidationSended" Type="DateTime" Precision="7" />
+          <Property Name="DocumentsToSignReceived" Type="DateTime" Precision="7" />
+          <Property Name="DocumentsToSignSended" Type="DateTime" Precision="7" />
+          <Property Name="DocumentsSignedReceived" Type="DateTime" Precision="7" />
+          <Property Name="DocumentsSignedStored" Type="DateTime" Precision="7" />
+          <Property Name="SignatureStampsGenerated" Type="Boolean" Nullable="false" />
+          <Property Name="SignatureEvidenceGenerated" Type="Boolean" Nullable="false" />
+          <Property Name="SignatureIntegrationServiceData" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Error" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="DateExpiry" Type="DateTime" Nullable="true" />
+        </EntityType>
+        <EntityType Name="Formulario">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" />
+          <Property Name="fecha_diligenciamiento" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="nombre_proceso" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="persona_id" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Persona_fidu" Relationship="Self.FK_Formulario_Persona" FromRole="Formulario" ToRole="Persona_fidu" />
+        </EntityType>
+        <EntityType Name="Informacion_proyecto">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" />
+          <Property Name="producto" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="numero_encargo" Type="Int64" Nullable="false" />
+          <Property Name="ciudad" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="inmueble" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="unidad" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="torre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="valor_inmueble" Type="Int64" Nullable="false" />
+          <Property Name="cantidad_garage" Type="Int64" Nullable="false" />
+          <Property Name="cantidad_depositos" Type="Int64" Nullable="false" />
+          <Property Name="valor_cuota_inicial" Type="Int64" Nullable="false" />
+          <Property Name="persona_id" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Num_Enc_Fijo" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="Persona_fidu" Relationship="Self.FK_Informacion_proyecto_Persona" FromRole="Informacion_proyecto" ToRole="Persona_fidu" />
+        </EntityType>
+        <EntityType Name="Persona_fidu">
+          <Key>
+            <PropertyRef Name="identificacion" />
+          </Key>
+          <Property Name="identificacion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="tipo_identificacion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="fecha_expedicion" Type="DateTime" Precision="0" />
+          <Property Name="primer_nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="segundo_nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="primer_apellido" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="segundo_apellido" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="enroll" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Autorizacion" Relationship="Self.FK_Autorizacion_Persona" FromRole="Persona_fidu" ToRole="Autorizacion" />
+          <NavigationProperty Name="Formulario" Relationship="Self.FK_Formulario_Persona" FromRole="Persona_fidu" ToRole="Formulario" />
+          <NavigationProperty Name="Informacion_proyecto" Relationship="Self.FK_Informacion_proyecto_Persona" FromRole="Persona_fidu" ToRole="Informacion_proyecto" />
+        </EntityType>
+        <EntityType Name="Persona_val">
+          <Key>
+            <PropertyRef Name="IDENTIFICATION_NUMBER" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IDENTIFICATION_NUMBER" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ID_IDENTIFICATION_TYPE" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="FIRST_NAME" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="MIDDLE_NAME" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="FIRST_SURNAME" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="SECOND_SURNAME" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="MAIL_ADDRESS" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="TELEPHONE_NUMBER" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="CELLPHONE_NUMBER" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="REQUEST_NUMBER" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PRODUCT" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="UNIT" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="vw_informacion_persona">
+          <Key>
+            <PropertyRef Name="identificacion" />
+            <PropertyRef Name="tipo_identificacion" />
+            <PropertyRef Name="autorizacion_1" />
+            <PropertyRef Name="autorizacion_2" />
+            <PropertyRef Name="autorizacion_3" />
+            <PropertyRef Name="producto" />
+            <PropertyRef Name="numero_encargo" />
+            <PropertyRef Name="ciudad" />
+            <PropertyRef Name="inmueble" />
+            <PropertyRef Name="unidad" />
+            <PropertyRef Name="torre" />
+            <PropertyRef Name="valor_inmueble" />
+            <PropertyRef Name="cantidad_garage" />
+            <PropertyRef Name="cantidad_depositos" />
+            <PropertyRef Name="valor_cuota_inicial" />
+            <PropertyRef Name="fecha_diligenciamiento" />
+            <PropertyRef Name="nombre_proceso" />
+          </Key>
+          <Property Name="identificacion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="tipo_identificacion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="fecha_expedicion" Type="DateTime" Precision="0" />
+          <Property Name="primer_nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="segundo_nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="primer_apellido" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="segundo_apellido" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="autorizacion_1" Type="Boolean" Nullable="false" />
+          <Property Name="autorizacion_2" Type="Boolean" Nullable="false" />
+          <Property Name="autorizacion_3" Type="Boolean" Nullable="false" />
+          <Property Name="producto" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="numero_encargo" Type="Int64" Nullable="false" />
+          <Property Name="ciudad" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="inmueble" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="unidad" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="torre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="valor_inmueble" Type="Int64" Nullable="false" />
+          <Property Name="cantidad_garage" Type="Int64" Nullable="false" />
+          <Property Name="cantidad_depositos" Type="Int64" Nullable="false" />
+          <Property Name="valor_cuota_inicial" Type="Int64" Nullable="false" />
+          <Property Name="fecha_diligenciamiento" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="nombre_proceso" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Autorizacion_Persona">
+          <End Role="Persona_fidu" Type="Self.Persona_fidu" Multiplicity="1" />
+          <End Role="Autorizacion" Type="Self.Autorizacion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Persona_fidu">
+              <PropertyRef Name="identificacion" />
+            </Principal>
+            <Dependent Role="Autorizacion">
+              <PropertyRef Name="persona_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Formulario_Persona">
+          <End Role="Persona_fidu" Type="Self.Persona_fidu" Multiplicity="1" />
+          <End Role="Formulario" Type="Self.Formulario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Persona_fidu">
+              <PropertyRef Name="identificacion" />
+            </Principal>
+            <Dependent Role="Formulario">
+              <PropertyRef Name="persona_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Informacion_proyecto_Persona">
+          <End Role="Persona_fidu" Type="Self.Persona_fidu" Multiplicity="1" />
+          <End Role="Informacion_proyecto" Type="Self.Informacion_proyecto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Persona_fidu">
+              <PropertyRef Name="identificacion" />
+            </Principal>
+            <Dependent Role="Informacion_proyecto">
+              <PropertyRef Name="persona_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="SARLAFTFIDUCOLMENAEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="C__BiometricValidationStateDBContext" EntityType="Self.C__BiometricValidationStateDBContext" />
+          <EntitySet Name="Autorizacion" EntityType="Self.Autorizacion" />
+          <EntitySet Name="BiometricValidationState" EntityType="Self.BiometricValidationState" />
+          <EntitySet Name="Formulario" EntityType="Self.Formulario" />
+          <EntitySet Name="Informacion_proyecto" EntityType="Self.Informacion_proyecto" />
+          <EntitySet Name="Persona_fidu" EntityType="Self.Persona_fidu" />
+          <EntitySet Name="Persona_val" EntityType="Self.Persona_val" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <EntitySet Name="vw_informacion_persona" EntityType="Self.vw_informacion_persona" />
+          <AssociationSet Name="FK_Autorizacion_Persona" Association="Self.FK_Autorizacion_Persona">
+            <End Role="Persona_fidu" EntitySet="Persona_fidu" />
+            <End Role="Autorizacion" EntitySet="Autorizacion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Formulario_Persona" Association="Self.FK_Formulario_Persona">
+            <End Role="Persona_fidu" EntitySet="Persona_fidu" />
+            <End Role="Formulario" EntitySet="Formulario" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Informacion_proyecto_Persona" Association="Self.FK_Informacion_proyecto_Persona">
+            <End Role="Persona_fidu" EntitySet="Persona_fidu" />
+            <End Role="Informacion_proyecto" EntitySet="Informacion_proyecto" />
+          </AssociationSet>
+          <FunctionImport Name="sp_act_validacion">
+            <Parameter Name="identificacion" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_alterdiagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="sp_creatediagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="sp_dropdiagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(SARLAFTFIDUCOLMENAModel.sp_helpdiagramdefinition_Result)">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(SARLAFTFIDUCOLMENAModel.sp_helpdiagrams_Result)">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_registro">
+            <Parameter Name="ejecucion" Mode="In" Type="Int32" />
+            <Parameter Name="tipo_identificacion" Mode="In" Type="String" />
+            <Parameter Name="identificacion" Mode="In" Type="String" />
+            <Parameter Name="fecha_expedicion" Mode="In" Type="DateTime" />
+            <Parameter Name="primer_nombre" Mode="In" Type="String" />
+            <Parameter Name="segundo_nombre" Mode="In" Type="String" />
+            <Parameter Name="primer_apellido" Mode="In" Type="String" />
+            <Parameter Name="segundo_apellido" Mode="In" Type="String" />
+            <Parameter Name="autorizacion_1" Mode="In" Type="Boolean" />
+            <Parameter Name="autorizacion_2" Mode="In" Type="Boolean" />
+            <Parameter Name="autorizacion_3" Mode="In" Type="Boolean" />
+            <Parameter Name="producto" Mode="In" Type="String" />
+            <Parameter Name="numero_encargo" Mode="In" Type="Int64" />
+            <Parameter Name="ciudad" Mode="In" Type="String" />
+            <Parameter Name="inmueble" Mode="In" Type="String" />
+            <Parameter Name="unidad" Mode="In" Type="String" />
+            <Parameter Name="torre" Mode="In" Type="String" />
+            <Parameter Name="valor_inmueble" Mode="In" Type="Int64" />
+            <Parameter Name="cantidad_garage" Mode="In" Type="Int64" />
+            <Parameter Name="cantidad_depositos" Mode="In" Type="Int64" />
+            <Parameter Name="valor_couta_inicial" Mode="In" Type="Int64" />
+            <Parameter Name="Num_Enc_Fijo" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="sp_registro_inicial">
+            <Parameter Name="tipo_identificacion" Mode="In" Type="String" />
+            <Parameter Name="identificacion" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_renamediagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="new_diagramname" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_upgraddiagrams" />
+        </EntityContainer>
+        <ComplexType Name="sp_helpdiagramdefinition_Result">
+          <Property Type="Int32" Name="version" Nullable="true" />
+          <Property Type="Binary" Name="definition" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_helpdiagrams_Result">
+          <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
+          <Property Type="Int32" Name="OwnerID" Nullable="false" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="SARLAFTFIDUCOLMENAModelStoreContainer" CdmEntityContainer="SARLAFTFIDUCOLMENAEntities">
+    <EntitySetMapping Name="C__BiometricValidationStateDBContext">
+      <EntityTypeMapping TypeName="IsTypeOf(SARLAFTFIDUCOLMENAModel.C__BiometricValidationStateDBContext)">
+        <MappingFragment StoreEntitySet="C__BiometricValidationStateDBContext">
+          <ScalarProperty Name="MigrationId" ColumnName="MigrationId" />
+          <ScalarProperty Name="ProductVersion" ColumnName="ProductVersion" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Autorizacion">
+      <EntityTypeMapping TypeName="IsTypeOf(SARLAFTFIDUCOLMENAModel.Autorizacion)">
+        <MappingFragment StoreEntitySet="Autorizacion">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="autorizacion_1" ColumnName="autorizacion_1" />
+          <ScalarProperty Name="autorizacion_2" ColumnName="autorizacion_2" />
+          <ScalarProperty Name="autorizacion_3" ColumnName="autorizacion_3" />
+          <ScalarProperty Name="persona_id" ColumnName="persona_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="BiometricValidationState">
+      <EntityTypeMapping TypeName="IsTypeOf(SARLAFTFIDUCOLMENAModel.BiometricValidationState)">
+        <MappingFragment StoreEntitySet="BiometricValidationState">
+          <ScalarProperty Name="CorrelationId" ColumnName="CorrelationId" />
+          <ScalarProperty Name="CurrentState" ColumnName="CurrentState" />
+          <ScalarProperty Name="Version" ColumnName="Version" />
+          <ScalarProperty Name="RequestNumber" ColumnName="RequestNumber" />
+          <ScalarProperty Name="IdentificationType" ColumnName="IdentificationType" />
+          <ScalarProperty Name="IdentificationNumber" ColumnName="IdentificationNumber" />
+          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+          <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
+          <ScalarProperty Name="FirstSurname" ColumnName="FirstSurname" />
+          <ScalarProperty Name="SecondSurname" ColumnName="SecondSurname" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="CellPhoneNumber" ColumnName="CellPhoneNumber" />
+          <ScalarProperty Name="TelephoneNumber" ColumnName="TelephoneNumber" />
+          <ScalarProperty Name="Unit" ColumnName="Unit" />
+          <ScalarProperty Name="Product" ColumnName="Product" />
+          <ScalarProperty Name="UserInformationReceived" ColumnName="UserInformationReceived" />
+          <ScalarProperty Name="UserInformationStored" ColumnName="UserInformationStored" />
+          <ScalarProperty Name="EmailToValidationSended" ColumnName="EmailToValidationSended" />
+          <ScalarProperty Name="IdentityValidationReceived" ColumnName="IdentityValidationReceived" />
+          <ScalarProperty Name="IdentityValidationSended" ColumnName="IdentityValidationSended" />
+          <ScalarProperty Name="DocumentsToSignReceived" ColumnName="DocumentsToSignReceived" />
+          <ScalarProperty Name="DocumentsToSignSended" ColumnName="DocumentsToSignSended" />
+          <ScalarProperty Name="DocumentsSignedReceived" ColumnName="DocumentsSignedReceived" />
+          <ScalarProperty Name="DocumentsSignedStored" ColumnName="DocumentsSignedStored" />
+          <ScalarProperty Name="SignatureStampsGenerated" ColumnName="SignatureStampsGenerated" />
+          <ScalarProperty Name="SignatureEvidenceGenerated" ColumnName="SignatureEvidenceGenerated" />
+          <ScalarProperty Name="SignatureIntegrationServiceData" ColumnName="SignatureIntegrationServiceData" />
+          <ScalarProperty Name="Error" ColumnName="Error" />
+          <ScalarProperty Name="DateExpiry" ColumnName="DateExpiry" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Formulario">
+      <EntityTypeMapping TypeName="IsTypeOf(SARLAFTFIDUCOLMENAModel.Formulario)">
+        <MappingFragment StoreEntitySet="Formulario">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="fecha_diligenciamiento" ColumnName="fecha_diligenciamiento" />
+          <ScalarProperty Name="nombre_proceso" ColumnName="nombre_proceso" />
+          <ScalarProperty Name="persona_id" ColumnName="persona_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Informacion_proyecto">
+      <EntityTypeMapping TypeName="IsTypeOf(SARLAFTFIDUCOLMENAModel.Informacion_proyecto)">
+        <MappingFragment StoreEntitySet="Informacion_proyecto">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="producto" ColumnName="producto" />
+          <ScalarProperty Name="numero_encargo" ColumnName="numero_encargo" />
+          <ScalarProperty Name="ciudad" ColumnName="ciudad" />
+          <ScalarProperty Name="inmueble" ColumnName="inmueble" />
+          <ScalarProperty Name="unidad" ColumnName="unidad" />
+          <ScalarProperty Name="torre" ColumnName="torre" />
+          <ScalarProperty Name="valor_inmueble" ColumnName="valor_inmueble" />
+          <ScalarProperty Name="cantidad_garage" ColumnName="cantidad_garage" />
+          <ScalarProperty Name="cantidad_depositos" ColumnName="cantidad_depositos" />
+          <ScalarProperty Name="valor_cuota_inicial" ColumnName="valor_cuota_inicial" />
+          <ScalarProperty Name="persona_id" ColumnName="persona_id" />
+          <ScalarProperty Name="Num_Enc_Fijo" ColumnName="Num_Enc_Fijo" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Persona_fidu">
+      <EntityTypeMapping TypeName="IsTypeOf(SARLAFTFIDUCOLMENAModel.Persona_fidu)">
+        <MappingFragment StoreEntitySet="Persona_fidu">
+          <ScalarProperty Name="identificacion" ColumnName="identificacion" />
+          <ScalarProperty Name="tipo_identificacion" ColumnName="tipo_identificacion" />
+          <ScalarProperty Name="fecha_expedicion" ColumnName="fecha_expedicion" />
+          <ScalarProperty Name="primer_nombre" ColumnName="primer_nombre" />
+          <ScalarProperty Name="segundo_nombre" ColumnName="segundo_nombre" />
+          <ScalarProperty Name="primer_apellido" ColumnName="primer_apellido" />
+          <ScalarProperty Name="segundo_apellido" ColumnName="segundo_apellido" />
+          <ScalarProperty Name="enroll" ColumnName="enroll" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Persona_val">
+      <EntityTypeMapping TypeName="IsTypeOf(SARLAFTFIDUCOLMENAModel.Persona_val)">
+        <MappingFragment StoreEntitySet="Persona_val">
+          <ScalarProperty Name="IDENTIFICATION_NUMBER" ColumnName="IDENTIFICATION_NUMBER" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="ID_IDENTIFICATION_TYPE" ColumnName="ID_IDENTIFICATION_TYPE" />
+          <ScalarProperty Name="FIRST_NAME" ColumnName="FIRST_NAME" />
+          <ScalarProperty Name="MIDDLE_NAME" ColumnName="MIDDLE_NAME" />
+          <ScalarProperty Name="FIRST_SURNAME" ColumnName="FIRST_SURNAME" />
+          <ScalarProperty Name="SECOND_SURNAME" ColumnName="SECOND_SURNAME" />
+          <ScalarProperty Name="MAIL_ADDRESS" ColumnName="MAIL_ADDRESS" />
+          <ScalarProperty Name="TELEPHONE_NUMBER" ColumnName="TELEPHONE_NUMBER" />
+          <ScalarProperty Name="CELLPHONE_NUMBER" ColumnName="CELLPHONE_NUMBER" />
+          <ScalarProperty Name="REQUEST_NUMBER" ColumnName="REQUEST_NUMBER" />
+          <ScalarProperty Name="PRODUCT" ColumnName="PRODUCT" />
+          <ScalarProperty Name="UNIT" ColumnName="UNIT" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="sysdiagrams">
+      <EntityTypeMapping TypeName="IsTypeOf(SARLAFTFIDUCOLMENAModel.sysdiagrams)">
+        <MappingFragment StoreEntitySet="sysdiagrams">
+          <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+          <ScalarProperty Name="version" ColumnName="version" />
+          <ScalarProperty Name="definition" ColumnName="definition" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="vw_informacion_persona">
+      <EntityTypeMapping TypeName="IsTypeOf(SARLAFTFIDUCOLMENAModel.vw_informacion_persona)">
+        <MappingFragment StoreEntitySet="vw_informacion_persona">
+          <ScalarProperty Name="identificacion" ColumnName="identificacion" />
+          <ScalarProperty Name="tipo_identificacion" ColumnName="tipo_identificacion" />
+          <ScalarProperty Name="autorizacion_1" ColumnName="autorizacion_1" />
+          <ScalarProperty Name="autorizacion_2" ColumnName="autorizacion_2" />
+          <ScalarProperty Name="autorizacion_3" ColumnName="autorizacion_3" />
+          <ScalarProperty Name="producto" ColumnName="producto" />
+          <ScalarProperty Name="numero_encargo" ColumnName="numero_encargo" />
+          <ScalarProperty Name="ciudad" ColumnName="ciudad" />
+          <ScalarProperty Name="inmueble" ColumnName="inmueble" />
+          <ScalarProperty Name="unidad" ColumnName="unidad" />
+          <ScalarProperty Name="torre" ColumnName="torre" />
+          <ScalarProperty Name="valor_inmueble" ColumnName="valor_inmueble" />
+          <ScalarProperty Name="cantidad_garage" ColumnName="cantidad_garage" />
+          <ScalarProperty Name="cantidad_depositos" ColumnName="cantidad_depositos" />
+          <ScalarProperty Name="valor_cuota_inicial" ColumnName="valor_cuota_inicial" />
+          <ScalarProperty Name="fecha_diligenciamiento" ColumnName="fecha_diligenciamiento" />
+          <ScalarProperty Name="nombre_proceso" ColumnName="nombre_proceso" />
+          <ScalarProperty Name="fecha_expedicion" ColumnName="fecha_expedicion" />
+          <ScalarProperty Name="primer_nombre" ColumnName="primer_nombre" />
+          <ScalarProperty Name="segundo_nombre" ColumnName="segundo_nombre" />
+          <ScalarProperty Name="primer_apellido" ColumnName="primer_apellido" />
+          <ScalarProperty Name="segundo_apellido" ColumnName="segundo_apellido" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
