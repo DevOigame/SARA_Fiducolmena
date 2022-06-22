@@ -32,12 +32,13 @@ namespace Fiducolmena.Controllers
             caches();
             using (var db = new SARLAFTFIDUCOLMENAEntities())
             {
-                //TODO: Esta consulta se puede mejorar, se esta consultando 2 veces la misma tabla. Mejorar la logica
-                var rqn = db.Persona_val.FirstOrDefault(x => x.REQUEST_NUMBER == RequestNumber);
-                if (!RequestNumber.Equals(rqn.REQUEST_NUMBER))
-                {
-                    return Content("<script language='javascript' type='text/javascript'>alert('Rectificar número de encargo o comunicarse con la constructora.'); document.location = '/Home/Index'; </script>");
-                }
+                //Codigo quedo en que se iba a eliminar ya que el filtro se encarga de eso
+                ////TODO: Esta consulta se puede mejorar, se esta consultando 2 veces la misma tabla. Mejorar la logica
+                //var rqn = db.Persona_val.FirstOrDefault(x => x.REQUEST_NUMBER == RequestNumber);
+                //if (!RequestNumber.Equals(rqn.REQUEST_NUMBER))
+                //{
+                //    return Content("<script language='javascript' type='text/javascript'>alert('Rectificar número de encargo o comunicarse con la constructora.'); document.location = '/Home/Index'; </script>");
+                //}
 
                 var registeredPerson = db.Persona_val.FirstOrDefault(x => x.IDENTIFICATION_NUMBER == NumIdentifica);
                 if (registeredPerson != null)
