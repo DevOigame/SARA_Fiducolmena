@@ -10,12 +10,17 @@ using System.Web.Routing;
 
 namespace Fiducolmena.Filters
 {
-    public class FiltersLinkLifeTime : IAuthorizationFilter
+    public class FiltersAuthorization : IAuthorizationFilter
     {
 
         public void OnAuthorization(AuthorizationContext filterContext)
+        
         {
+            string[] requestValueParam = null;
             var requestNumber = filterContext.HttpContext.Request.Params.GetValues("RequestNumber");
+            if (requestNumber == null)
+                requestNumber = filterContext.HttpContext.Request.QueryString.GetValues("requestNumber");
+               
             if (requestNumber != null)
             {
                 using (var db = new SARLAFTFIDUCOLMENAEntities())

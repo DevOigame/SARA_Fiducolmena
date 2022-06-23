@@ -13,8 +13,12 @@ namespace Fiducolmena.Controllers
 {
     public class HomeController : Controller
     {
-        public ActionResult Index()
+        [HttpGet]
+        public ActionResult Index(string requestNumber)
         {
+            if (string.IsNullOrWhiteSpace(requestNumber))
+                return RedirectToAction("ErrorRequestNumber");
+            ViewBag.requestNumber = requestNumber;
             return View();
         }
 
