@@ -13,11 +13,8 @@ namespace Fiducolmena.Controllers
 {
     public class HomeController : Controller
     {
-        [HttpGet]
         public ActionResult Index(string requestNumber)
         {
-            if (string.IsNullOrWhiteSpace(requestNumber))
-                return RedirectToAction("ErrorRequestNumber");
             ViewBag.requestNumber = requestNumber;
             return View();
         }
@@ -33,17 +30,9 @@ namespace Fiducolmena.Controllers
 
             var urlCallback = string.Format("callback=https://{0}/Home/ProcesoExitoso", ConfigurationManager.AppSettings["callbackHostUrl"]);
 
-            caches();
+            //caches();
             using (var db = new SARLAFTFIDUCOLMENAEntities())
             {
-                //Codigo quedo en que se iba a eliminar ya que el filtro se encarga de eso
-                ////TODO: Esta consulta se puede mejorar, se esta consultando 2 veces la misma tabla. Mejorar la logica
-                //var rqn = db.Persona_val.FirstOrDefault(x => x.REQUEST_NUMBER == RequestNumber);
-                //if (!RequestNumber.Equals(rqn.REQUEST_NUMBER))
-                //{
-                //    return Content("<script language='javascript' type='text/javascript'>alert('Rectificar número de encargo o comunicarse con la constructora.'); document.location = '/Home/Index'; </script>");
-                //}
-
                 var registeredPerson = db.Persona_val.FirstOrDefault(x => x.IDENTIFICATION_NUMBER == NumIdentifica);
                 if (registeredPerson != null)
                 {
@@ -79,7 +68,7 @@ namespace Fiducolmena.Controllers
             var parameters = System.Web.Helpers.Json.Decode(callbackModel.Parameters);
             var requestNumber = parameters.RequestNumber;
 
-            caches();
+            //caches();
             var serviceHostUrl = ConfigurationManager.AppSettings["serviceHostUrl"];
             var serviceUrl = string.Format("{0}/api/v1/BiometricValidation/{1}/IdentityValidation", serviceHostUrl, requestNumber);
             var client = new RestClient(serviceUrl);
@@ -102,7 +91,7 @@ namespace Fiducolmena.Controllers
         public ActionResult RegistroFinal1(string tiDoc, string numDoc, DateTime FechaExpe, string P_Nom, string S_Nom, string P_Apell, string S_Apell, bool select1, bool select2, bool select3)
         {
             Session["numero_documento"] = numDoc;
-            caches();
+            //caches();
             using (var db = new SARLAFTFIDUCOLMENAEntities())
             {
                 string vacio = "";
@@ -117,7 +106,7 @@ namespace Fiducolmena.Controllers
         public ActionResult RegistroFinal2(string Producto, long Num_Enc, string Unidad, long C_Garajes, string Ciudad, string Torre, long Deposito, string Inmueble, long V_Inmueble, long V_cuota_ini)
         {
             string numDoc = (string)Session["numero_documento"];
-            caches();
+            //caches();
             using (var db = new SARLAFTFIDUCOLMENAEntities())
             {
                 string vacio = "";
@@ -132,16 +121,17 @@ namespace Fiducolmena.Controllers
         {
             return View("LinkExpire");
         }
+
         [HttpGet]
         public ActionResult ErrorRequestNumber()
         {
             return View("RequestInvalid");
         }
-        public void caches()
-        {
-            Response.Cache.SetCacheability(HttpCacheability.NoCache);
-            Response.Cache.SetExpires(DateTime.Now.AddDays(-1));
-            Response.Cache.SetNoStore();
-        }
+        //public void caches()
+        //{
+        //    Response.Cache.SetCacheability(HttpCacheability.NoCache);
+        //    Response.Cache.SetExpires(DateTime.Now.AddDays(-1));
+        //    Response.Cache.SetNoStore();
+        //}
     }
 }

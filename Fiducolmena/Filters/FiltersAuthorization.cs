@@ -14,34 +14,37 @@ namespace Fiducolmena.Filters
     {
 
         public void OnAuthorization(AuthorizationContext filterContext)
-        
         {
-            string[] requestValueParam = null;
-            var requestNumber = filterContext.HttpContext.Request.Params.GetValues("RequestNumber");
-            if (requestNumber == null)
-                requestNumber = filterContext.HttpContext.Request.QueryString.GetValues("requestNumber");
-               
-            if (requestNumber != null)
-            {
-                using (var db = new SARLAFTFIDUCOLMENAEntities())
-                {
+            var action = filterContext.ActionDescriptor.ActionName;
 
-                    var request = requestNumber[0];
-                    var rqn = db.Persona_val.FirstOrDefault(x => x.REQUEST_NUMBER == request);
-                    if (rqn == null)
+            var requestNumber = filterContext.HttpContext.Request.Params.GetValues("RequestNumber");
+            if (action == "Index" && requestNumber == null)
+                RedirectToRoute(filterContext, "ErrorRequestNumber");
+            else
+            {
+                if (requestNumber != null)
+                {
+                    using (var db = new SARLAFTFIDUCOLMENAEntities())
                     {
-                        RedirectToRoute(filterContext, "ErrorRequestNumber");
-                    }
-                    else
-                    {
-                        var bRn = db.BiometricValidationState.FirstOrDefault(x => x.RequestNumber == request);
-                        if (bRn == null || DateTime.UtcNow > bRn.DateExpiry)
+
+                        var request = requestNumber[0];
+                        var rqn = db.Persona_val.FirstOrDefault(x => x.REQUEST_NUMBER == request);
+                        if (rqn == null)
                         {
-                            RedirectToRoute(filterContext, "Errorlink");
+                            RedirectToRoute(filterContext, "ErrorRequestNumber");
+                        }
+                        else
+                        {
+                            var bRn = db.BiometricValidationState.FirstOrDefault(x => x.RequestNumber == request);
+                            if (bRn == null || DateTime.UtcNow > bRn.DateExpiry)
+                            {
+                                RedirectToRoute(filterContext, "Errorlink");
+                            }
                         }
                     }
                 }
             }
+
         }
 
 
@@ -57,7 +60,7 @@ namespace Fiducolmena.Filters
             if (virtualPathData != null)
             {
                 string url = virtualPathData.VirtualPath;
-                filterContext.Result = new RedirectResult(url, true);
+                filterContext.Result = new RedirectResult(url);
             }
         }
     }
