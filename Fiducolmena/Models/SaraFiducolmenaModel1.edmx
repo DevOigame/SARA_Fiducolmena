@@ -55,6 +55,7 @@
           <Property Name="SignatureIntegrationServiceData" Type="nvarchar(max)" />
           <Property Name="Error" Type="nvarchar(max)" />
 		  <Property Name="DateExpiry" Type="datetime2" Precision="7" />
+		  <Property Name="LinkAccess" Type="datetime2" Precision="7" />
         </EntityType>
         <EntityType Name="Formulario">
           <Key>
@@ -371,6 +372,7 @@ advertencia 6002: La tabla o vista 'SARLAFTFIDUCOLMENA.dbo.vw_informacion_person
           <Property Name="SignatureIntegrationServiceData" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Error" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="DateExpiry" Type="DateTime" Nullable="true" />
+          <Property Name="LinkAccess" Type="DateTime" Nullable="true" />
         </EntityType>
         <EntityType Name="Formulario">
           <Key>
@@ -676,6 +678,7 @@ advertencia 6002: La tabla o vista 'SARLAFTFIDUCOLMENA.dbo.vw_informacion_person
                 <ScalarProperty Name="SignatureIntegrationServiceData" ColumnName="SignatureIntegrationServiceData" />
                 <ScalarProperty Name="Error" ColumnName="Error" />
 				<ScalarProperty Name="DateExpiry" ColumnName="DateExpiry" />
+				<ScalarProperty Name="LinkAccess" ColumnName="LinkAccess" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

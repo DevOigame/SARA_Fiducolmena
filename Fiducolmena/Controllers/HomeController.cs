@@ -8,6 +8,7 @@ using RestSharp;
 using System.Web.Script.Serialization;
 using System.Configuration;
 using System.Net;
+using Fiducolmena.Filters;
 
 namespace Fiducolmena.Controllers
 {
@@ -18,45 +19,46 @@ namespace Fiducolmena.Controllers
             ViewBag.requestNumber = requestNumber;
             return View();
         }
-
+        [FilterLinkUsed]
         [HttpPost]
         public ActionResult Prevalidacion(string NumIdentifica, string RequestNumber)
         {
 
-            var projectkey = ConfigurationManager.AppSettings["projectKey"];
-            var projectName = ConfigurationManager.AppSettings["projectName"];
-            var adoHostUrl = ConfigurationManager.AppSettings["adoHostUrl"];
-            var validarPersonUrl = string.Format("https://{0}/{2}/validar-persona?key={1}&projectName={2}&", adoHostUrl, projectkey, projectName);
+            //var projectkey = ConfigurationManager.AppSettings["projectKey"];
+            //var projectName = ConfigurationManager.AppSettings["projectName"];
+            //var adoHostUrl = ConfigurationManager.AppSettings["adoHostUrl"];
+            //var validarPersonUrl = string.Format("https://{0}/{2}/validar-persona?key={1}&projectName={2}&", adoHostUrl, projectkey, projectName);
 
-            var urlCallback = string.Format("callback=https://{0}/Home/ProcesoExitoso", ConfigurationManager.AppSettings["callbackHostUrl"]);
+            //var urlCallback = string.Format("callback=https://{0}/Home/ProcesoExitoso", ConfigurationManager.AppSettings["callbackHostUrl"]);
 
-            //caches();
-            using (var db = new SARLAFTFIDUCOLMENAEntities())
-            {
-                var registeredPerson = db.Persona_val.FirstOrDefault(x => x.IDENTIFICATION_NUMBER == NumIdentifica);
-                if (registeredPerson != null)
-                {
-                    JavaScriptSerializer serializer = new JavaScriptSerializer();
-                    var parameterObject = new
-                    {
-                        requestNumber = RequestNumber
-                    };
-                    var parametersSerializer = serializer.Serialize(parameterObject);
+            ////caches();
+            //using (var db = new SARLAFTFIDUCOLMENAEntities())
+            //{
+            //    var registeredPerson = db.Persona_val.FirstOrDefault(x => x.IDENTIFICATION_NUMBER == NumIdentifica);
+            //    if (registeredPerson != null)
+            //    {
+            //        JavaScriptSerializer serializer = new JavaScriptSerializer();
+            //        var parameterObject = new
+            //        {
+            //            requestNumber = RequestNumber
+            //        };
+            //        var parametersSerializer = serializer.Serialize(parameterObject);
 
-                    /* Enrolamiento */
-                    db.sp_registro_inicial(registeredPerson.ID_IDENTIFICATION_TYPE, NumIdentifica);
-                    db.SaveChanges();
+            //        /* Enrolamiento */
+            //        db.sp_registro_inicial(registeredPerson.ID_IDENTIFICATION_TYPE, NumIdentifica);
+            //        db.SaveChanges();
 
-                    //TODO: Pasar las URLs todas a variables de configuracion
-                    urlCallback = string.Format(urlCallback + "&Parameters={0}", parametersSerializer);
-
-                    return Redirect(string.Format("{0}{1}", validarPersonUrl, urlCallback));
-                }
-                else
-                {
-                    return Content("<script language='javascript' type='text/javascript'>alert('El usuario no se encuentra habilitado para realizar la validacion de identidad.'); document.location = '/Home/Index'; </script>");
-                }
-            }
+            //        //TODO: Pasar las URLs todas a variables de configuracion
+            //        urlCallback = string.Format(urlCallback + "&Parameters={0}", parametersSerializer);
+            //        // aqui pones fecha de acceso al link
+            //        return Redirect(string.Format("{0}{1}", validarPersonUrl, urlCallback));
+            //    }
+            //    else
+            //    {
+            //        return Content("<script language='javascript' type='text/javascript'>alert('El usuario no se encuentra habilitado para realizar la validacion de identidad.'); document.location = '/Home/Index'; </script>");
+            //    }
+            //}
+            return Content("<script language='javascript' type='text/javascript'>alert('Ejemplo de prueba.'); document.location = '/Home/Index'; </script>");
         }
 
         [HttpGet]
@@ -126,6 +128,11 @@ namespace Fiducolmena.Controllers
         public ActionResult ErrorRequestNumber()
         {
             return View("RequestInvalid");
+        }
+        [HttpGet]
+        public ActionResult ErrorLinkAccess()
+        {
+            return View("LinkAccess");
         }
         //public void caches()
         //{

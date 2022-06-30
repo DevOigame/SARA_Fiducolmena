@@ -40,6 +40,10 @@ namespace Fiducolmena.Filters
                             {
                                 RedirectToRoute(filterContext, "Errorlink");
                             }
+                            if(bRn.LinkAccess != null)
+                            {
+                                RedirectToRoute(filterContext, "ErrorLinkAccess");
+                            }
                         }
                     }
                 }

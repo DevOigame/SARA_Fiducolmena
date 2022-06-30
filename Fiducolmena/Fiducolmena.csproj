@@ -176,6 +176,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Filters\FilterLinkUsed.cs" />
     <Compile Include="Filters\FiltersAuthorization.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -347,6 +348,7 @@
     <None Include="Properties\PublishProfiles\Fiducolmena.pubxml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Properties\PublishProfiles\IISProfile.pubxml" />
+    <None Include="Properties\PublishProfiles\IISProfile1.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -380,6 +382,7 @@
     <Content Include="Views\Home\ProcesoNoExitoso.cshtml" />
     <Content Include="Views\Shared\LinkExpire.cshtml" />
     <Content Include="Views\Shared\RequestInvalid.cshtml" />
+    <Content Include="Views\Shared\LinkAccess.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
