@@ -18,8 +18,10 @@ namespace Fiducolmena.Filters
             var action = filterContext.ActionDescriptor.ActionName;
 
             var requestNumber = filterContext.HttpContext.Request.Params.GetValues("RequestNumber");
-            if (action == "Index" && requestNumber == null)
+            if (action == "Index" && requestNumber == null) { 
                 RedirectToRoute(filterContext, "ErrorRequestNumber");
+                return;
+            }
             else
             {
                 if (requestNumber != null)
@@ -39,6 +41,7 @@ namespace Fiducolmena.Filters
                             if (bRn == null || DateTime.UtcNow > bRn.DateExpiry)
                             {
                                 RedirectToRoute(filterContext, "Errorlink");
+                                return;
                             }
                             if(bRn.LinkAccess != null)
                             {

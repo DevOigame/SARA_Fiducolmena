@@ -18,7 +18,8 @@
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
-    <IISExpressSSLPort>44358</IISExpressSSLPort>
+    <IISExpressSSLPort>
+    </IISExpressSSLPort>
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
@@ -193,6 +194,9 @@
       <DependentUpon>SaraFiducolmenaModel1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Datos.cs" />
+    <Compile Include="Models\EventLog.cs">
+      <DependentUpon>SaraFiducolmenaModel1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Formulario.cs">
       <DependentUpon>SaraFiducolmenaModel1.tt</DependentUpon>
     </Compile>

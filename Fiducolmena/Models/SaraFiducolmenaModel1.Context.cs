@@ -33,9 +33,10 @@ namespace Fiducolmena.Models
         public virtual DbSet<Formulario> Formulario { get; set; }
         public virtual DbSet<Informacion_proyecto> Informacion_proyecto { get; set; }
         public virtual DbSet<Persona_fidu> Persona_fidu { get; set; }
-        public virtual DbSet<Persona_val> Persona_val { get; set; }
         public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
         public virtual DbSet<vw_informacion_persona> vw_informacion_persona { get; set; }
+        public virtual DbSet<EventLog> EventLog { get; set; }
+        public virtual DbSet<Persona_val> Persona_val { get; set; }
     
         public virtual int sp_act_validacion(string identificacion)
         {

@@ -11,12 +11,13 @@
         <EntityTypeShape EntityType="SARLAFTFIDUCOLMENAModel.Formulario" Width="1.5" PointX="3" PointY="4.25" IsExpanded="true" />
         <EntityTypeShape EntityType="SARLAFTFIDUCOLMENAModel.Informacion_proyecto" Width="1.5" PointX="3" PointY="7" IsExpanded="true" />
         <EntityTypeShape EntityType="SARLAFTFIDUCOLMENAModel.Persona_fidu" Width="1.5" PointX="0.75" PointY="4.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="SARLAFTFIDUCOLMENAModel.Persona_val" Width="1.5" PointX="7.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="SARLAFTFIDUCOLMENAModel.sysdiagrams" Width="1.5" PointX="7.75" PointY="5.75" IsExpanded="true" />
         <EntityTypeShape EntityType="SARLAFTFIDUCOLMENAModel.vw_informacion_persona" Width="1.5" PointX="7.75" PointY="8.75" IsExpanded="true" />
         <AssociationConnector Association="SARLAFTFIDUCOLMENAModel.FK_Autorizacion_Persona" ManuallyRouted="false" />
         <AssociationConnector Association="SARLAFTFIDUCOLMENAModel.FK_Formulario_Persona" ManuallyRouted="false" />
         <AssociationConnector Association="SARLAFTFIDUCOLMENAModel.FK_Informacion_proyecto_Persona" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="SARLAFTFIDUCOLMENAModel.EventLog" Width="1.5" PointX="8.375" PointY="0.75" />
+        <EntityTypeShape EntityType="SARLAFTFIDUCOLMENAModel.Persona_val" Width="1.5" PointX="10.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="SARLAFTFIDUCOLMENAModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="SARLAFTFIDUCOLMENAModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="__BiometricValidationStateDBContext">
           <Key>
             <PropertyRef Name="MigrationId" />
@@ -54,8 +54,20 @@
           <Property Name="SignatureEvidenceGenerated" Type="bit" Nullable="false" />
           <Property Name="SignatureIntegrationServiceData" Type="nvarchar(max)" />
           <Property Name="Error" Type="nvarchar(max)" />
-		  <Property Name="DateExpiry" Type="datetime2" Precision="7" />
-		  <Property Name="LinkAccess" Type="datetime2" Precision="7" />
+          <Property Name="TransactionId" Type="nvarchar(max)" />
+          <Property Name="DateExpiry" Type="datetime2" Precision="7" />
+          <Property Name="LinkAccess" Type="datetime2" Precision="7" />
+        </EntityType>
+        <EntityType Name="EventLog">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Message" Type="nvarchar(max)" />
+          <Property Name="Level" Type="nvarchar(max)" />
+          <Property Name="TimeStamp" Type="datetime" />
+          <Property Name="Exception" Type="nvarchar(max)" />
+          <Property Name="LogEvent" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="Formulario">
           <Key>
@@ -99,15 +111,15 @@
         </EntityType>
         <EntityType Name="Persona_val">
           <Key>
-            <PropertyRef Name="IDENTIFICATION_NUMBER" />
+            <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="IDENTIFICATION_NUMBER" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="ID_IDENTIFICATION_TYPE" Type="varchar" MaxLength="20" />
           <Property Name="FIRST_NAME" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="MIDDLE_NAME" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="MIDDLE_NAME" Type="varchar" MaxLength="50" />
           <Property Name="FIRST_SURNAME" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="SECOND_SURNAME" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="SECOND_SURNAME" Type="varchar" MaxLength="50" />
           <Property Name="MAIL_ADDRESS" Type="varchar" MaxLength="150" />
           <Property Name="TELEPHONE_NUMBER" Type="varchar" MaxLength="15" />
           <Property Name="CELLPHONE_NUMBER" Type="varchar" MaxLength="15" />
@@ -125,8 +137,8 @@
           <Property Name="version" Type="int" />
           <Property Name="definition" Type="varbinary(max)" />
         </EntityType>
-        <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'SARLAFTFIDUCOLMENA.dbo.vw_informacion_persona' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'SARLAFTFIDUCOLMENA.dbo.vw_informacion_persona' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vw_informacion_persona">
           <Key>
             <PropertyRef Name="identificacion" />
@@ -272,6 +284,7 @@ advertencia 6002: La tabla o vista 'SARLAFTFIDUCOLMENA.dbo.vw_informacion_person
           <EntitySet Name="__BiometricValidationStateDBContext" EntityType="Self.__BiometricValidationStateDBContext" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Autorizacion" EntityType="Self.Autorizacion" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="BiometricValidationState" EntityType="Self.BiometricValidationState" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EventLog" EntityType="Self.EventLog" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Formulario" EntityType="Self.Formulario" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Informacion_proyecto" EntityType="Self.Informacion_proyecto" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Persona_fidu" EntityType="Self.Persona_fidu" Schema="dbo" store:Type="Tables" />
@@ -316,8 +329,7 @@ advertencia 6002: La tabla o vista 'SARLAFTFIDUCOLMENA.dbo.vw_informacion_person
             <End Role="Informacion_proyecto" EntitySet="Informacion_proyecto" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="SARLAFTFIDUCOLMENAModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -371,8 +383,9 @@ advertencia 6002: La tabla o vista 'SARLAFTFIDUCOLMENA.dbo.vw_informacion_person
           <Property Name="SignatureEvidenceGenerated" Type="Boolean" Nullable="false" />
           <Property Name="SignatureIntegrationServiceData" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Error" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="DateExpiry" Type="DateTime" Nullable="true" />
-          <Property Name="LinkAccess" Type="DateTime" Nullable="true" />
+          <Property Name="DateExpiry" Type="DateTime" Nullable="true" Precision="7" />
+          <Property Name="LinkAccess" Type="DateTime" Nullable="true" Precision="7" />
+          <Property Name="TransactionId" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Formulario">
           <Key>
@@ -418,24 +431,6 @@ advertencia 6002: La tabla o vista 'SARLAFTFIDUCOLMENA.dbo.vw_informacion_person
           <NavigationProperty Name="Autorizacion" Relationship="Self.FK_Autorizacion_Persona" FromRole="Persona_fidu" ToRole="Autorizacion" />
           <NavigationProperty Name="Formulario" Relationship="Self.FK_Formulario_Persona" FromRole="Persona_fidu" ToRole="Formulario" />
           <NavigationProperty Name="Informacion_proyecto" Relationship="Self.FK_Informacion_proyecto_Persona" FromRole="Persona_fidu" ToRole="Informacion_proyecto" />
-        </EntityType>
-        <EntityType Name="Persona_val">
-          <Key>
-            <PropertyRef Name="IDENTIFICATION_NUMBER" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="IDENTIFICATION_NUMBER" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="ID_IDENTIFICATION_TYPE" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="FIRST_NAME" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="MIDDLE_NAME" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="FIRST_SURNAME" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="SECOND_SURNAME" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="MAIL_ADDRESS" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
-          <Property Name="TELEPHONE_NUMBER" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
-          <Property Name="CELLPHONE_NUMBER" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
-          <Property Name="REQUEST_NUMBER" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="PRODUCT" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="UNIT" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
@@ -533,7 +528,6 @@ advertencia 6002: La tabla o vista 'SARLAFTFIDUCOLMENA.dbo.vw_informacion_person
           <EntitySet Name="Formulario" EntityType="Self.Formulario" />
           <EntitySet Name="Informacion_proyecto" EntityType="Self.Informacion_proyecto" />
           <EntitySet Name="Persona_fidu" EntityType="Self.Persona_fidu" />
-          <EntitySet Name="Persona_val" EntityType="Self.Persona_val" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
           <EntitySet Name="vw_informacion_persona" EntityType="Self.vw_informacion_persona" />
           <AssociationSet Name="FK_Autorizacion_Persona" Association="Self.FK_Autorizacion_Persona">
@@ -549,7 +543,7 @@ advertencia 6002: La tabla o vista 'SARLAFTFIDUCOLMENA.dbo.vw_informacion_person
             <End Role="Informacion_proyecto" EntitySet="Informacion_proyecto" />
           </AssociationSet>
           <FunctionImport Name="sp_act_validacion">
-            <Parameter Name="identificacion" Mode="In" Type="String" />
+          <Parameter Name="identificacion" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_alterdiagram">
             <Parameter Name="diagramname" Mode="In" Type="String" />
@@ -609,6 +603,8 @@ advertencia 6002: La tabla o vista 'SARLAFTFIDUCOLMENA.dbo.vw_informacion_person
             <Parameter Name="new_diagramname" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_upgraddiagrams" />
+          <EntitySet Name="EventLog" EntityType="SARLAFTFIDUCOLMENAModel.EventLog" />
+          <EntitySet Name="Persona_val" EntityType="SARLAFTFIDUCOLMENAModel.Persona_val" />
         </EntityContainer>
         <ComplexType Name="sp_helpdiagramdefinition_Result">
           <Property Type="Int32" Name="version" Nullable="true" />
@@ -621,6 +617,35 @@ advertencia 6002: La tabla o vista 'SARLAFTFIDUCOLMENA.dbo.vw_informacion_person
           <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
           <Property Type="Int32" Name="OwnerID" Nullable="false" />
         </ComplexType>
+        <EntityType Name="EventLog">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Message" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Level" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TimeStamp" Type="DateTime" Precision="3" />
+          <Property Name="Exception" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="LogEvent" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Persona_val">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IDENTIFICATION_NUMBER" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ID_IDENTIFICATION_TYPE" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="FIRST_NAME" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="MIDDLE_NAME" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FIRST_SURNAME" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="SECOND_SURNAME" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="MAIL_ADDRESS" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="TELEPHONE_NUMBER" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="CELLPHONE_NUMBER" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="REQUEST_NUMBER" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PRODUCT" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="UNIT" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -649,6 +674,7 @@ advertencia 6002: La tabla o vista 'SARLAFTFIDUCOLMENA.dbo.vw_informacion_person
           <EntitySetMapping Name="BiometricValidationState">
             <EntityTypeMapping TypeName="SARLAFTFIDUCOLMENAModel.BiometricValidationState">
               <MappingFragment StoreEntitySet="BiometricValidationState">
+                <ScalarProperty Name="TransactionId" ColumnName="TransactionId" />
                 <ScalarProperty Name="CorrelationId" ColumnName="CorrelationId" />
                 <ScalarProperty Name="CurrentState" ColumnName="CurrentState" />
                 <ScalarProperty Name="Version" ColumnName="Version" />
@@ -725,25 +751,6 @@ advertencia 6002: La tabla o vista 'SARLAFTFIDUCOLMENA.dbo.vw_informacion_person
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Persona_val">
-            <EntityTypeMapping TypeName="SARLAFTFIDUCOLMENAModel.Persona_val">
-              <MappingFragment StoreEntitySet="Persona_val">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="IDENTIFICATION_NUMBER" ColumnName="IDENTIFICATION_NUMBER" />
-                <ScalarProperty Name="ID_IDENTIFICATION_TYPE" ColumnName="ID_IDENTIFICATION_TYPE" />
-                <ScalarProperty Name="FIRST_NAME" ColumnName="FIRST_NAME" />
-                <ScalarProperty Name="MIDDLE_NAME" ColumnName="MIDDLE_NAME" />
-                <ScalarProperty Name="FIRST_SURNAME" ColumnName="FIRST_SURNAME" />
-                <ScalarProperty Name="SECOND_SURNAME" ColumnName="SECOND_SURNAME" />
-                <ScalarProperty Name="MAIL_ADDRESS" ColumnName="MAIL_ADDRESS" />
-                <ScalarProperty Name="TELEPHONE_NUMBER" ColumnName="TELEPHONE_NUMBER" />
-                <ScalarProperty Name="CELLPHONE_NUMBER" ColumnName="CELLPHONE_NUMBER" />
-                <ScalarProperty Name="REQUEST_NUMBER" ColumnName="REQUEST_NUMBER" />
-                <ScalarProperty Name="PRODUCT" ColumnName="PRODUCT" />
-                <ScalarProperty Name="UNIT" ColumnName="UNIT" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="sysdiagrams">
             <EntityTypeMapping TypeName="SARLAFTFIDUCOLMENAModel.sysdiagrams">
               <MappingFragment StoreEntitySet="sysdiagrams">
@@ -810,6 +817,37 @@ advertencia 6002: La tabla o vista 'SARLAFTFIDUCOLMENA.dbo.vw_informacion_person
           <FunctionImportMapping FunctionImportName="sp_registro_inicial" FunctionName="SARLAFTFIDUCOLMENAModel.Store.sp_registro_inicial" />
           <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="SARLAFTFIDUCOLMENAModel.Store.sp_renamediagram" />
           <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="SARLAFTFIDUCOLMENAModel.Store.sp_upgraddiagrams" />
+          <EntitySetMapping Name="EventLog">
+            <EntityTypeMapping TypeName="SARLAFTFIDUCOLMENAModel.EventLog">
+              <MappingFragment StoreEntitySet="EventLog">
+                <ScalarProperty Name="LogEvent" ColumnName="LogEvent" />
+                <ScalarProperty Name="Exception" ColumnName="Exception" />
+                <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
+                <ScalarProperty Name="Level" ColumnName="Level" />
+                <ScalarProperty Name="Message" ColumnName="Message" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Persona_val">
+            <EntityTypeMapping TypeName="SARLAFTFIDUCOLMENAModel.Persona_val">
+              <MappingFragment StoreEntitySet="Persona_val">
+                <ScalarProperty Name="UNIT" ColumnName="UNIT" />
+                <ScalarProperty Name="PRODUCT" ColumnName="PRODUCT" />
+                <ScalarProperty Name="REQUEST_NUMBER" ColumnName="REQUEST_NUMBER" />
+                <ScalarProperty Name="CELLPHONE_NUMBER" ColumnName="CELLPHONE_NUMBER" />
+                <ScalarProperty Name="TELEPHONE_NUMBER" ColumnName="TELEPHONE_NUMBER" />
+                <ScalarProperty Name="MAIL_ADDRESS" ColumnName="MAIL_ADDRESS" />
+                <ScalarProperty Name="SECOND_SURNAME" ColumnName="SECOND_SURNAME" />
+                <ScalarProperty Name="FIRST_SURNAME" ColumnName="FIRST_SURNAME" />
+                <ScalarProperty Name="MIDDLE_NAME" ColumnName="MIDDLE_NAME" />
+                <ScalarProperty Name="FIRST_NAME" ColumnName="FIRST_NAME" />
+                <ScalarProperty Name="ID_IDENTIFICATION_TYPE" ColumnName="ID_IDENTIFICATION_TYPE" />
+                <ScalarProperty Name="IDENTIFICATION_NUMBER" ColumnName="IDENTIFICATION_NUMBER" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

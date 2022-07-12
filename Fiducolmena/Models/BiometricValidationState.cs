@@ -44,5 +44,6 @@ namespace Fiducolmena.Models
         public string Error { get; set; }
         public Nullable<System.DateTime> DateExpiry { get; set; }
         public Nullable<System.DateTime> LinkAccess { get; set; }
+        public string TransactionId { get; set; }
     }
 }
